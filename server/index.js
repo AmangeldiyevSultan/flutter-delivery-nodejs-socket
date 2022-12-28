@@ -15,7 +15,7 @@ const DB = 'mongodb+srv://sultan:1qwerty7@cluster0.aulfxyh.mongodb.net/?retryWri
 app.use(express.json()); 
 app.use(authRouter);   
 
-/// CONNECTION
+/// CONNECTION 
 mongoose.set("strictQuery", false);
 mongoose.connect(DB).then(()=>{
     console.log('Connection successful')
@@ -24,5 +24,5 @@ mongoose.connect(DB).then(()=>{
 });  
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`connected at port: ${PORT}`);
+    console.log(`connected at port: ${PORT}`); 
 }); 

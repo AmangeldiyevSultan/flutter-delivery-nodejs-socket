@@ -4,6 +4,7 @@ const User = require('../models/users');
 
 const authRouter = express.Router();
 
+/// SIGN UP
 authRouter.post('/api/signup', async (req, res) => {   
    try{
     const {name, email, password} =  req.body; 
