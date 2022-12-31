@@ -5,8 +5,6 @@ import 'package:amazon_clone/common/widgets/custom_textfield.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 enum Auth { signin, signup }
 
@@ -32,7 +30,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -40,10 +37,6 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void signUpUser() {
-    print(context);
-    print(_emailController.text);
-    print(_passwordController.text);
-    print(_nameController.text);
     authService.signUpUser(
         context: context,
         email: _emailController.text,
@@ -51,7 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
         name: _nameController.text);
   }
 
-  void SignInUser() {
+  void signInUser() {
     authService.signInUser(
       context: context,
       email: _emailController.text,
@@ -174,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     CustomButton(
                         text: "Sign-In",
                         onTap: () {
-                          SignInUser();
+                          signInUser();
                         })
                   ]),
                 ),
