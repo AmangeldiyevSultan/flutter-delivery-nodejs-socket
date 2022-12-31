@@ -42,4 +42,34 @@ class AuthService {
       showSnackBar(context, e.toString());
     }
   }
+
+  // sign in user
+  void signInUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      http.Response response = await http.post(Uri.parse('$uri/api/signin'),
+          body: jsonEncode({
+            'email': email,
+            'password': password,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; chatset=UTF8'
+          });
+      print(response.statusCode);
+      print(response.body);
+
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            showSnackBar(
+                context, 'Account created! Login with same credentials');
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 }
