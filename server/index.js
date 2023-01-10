@@ -2,8 +2,10 @@
 const e = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
+const adminRouter = require('./routes/admin');
 ///IMPORT FROM OTHER FILES
 const authRouter = require('./routes/auth'); 
+const productRouter = require('./routes/product');
 
 ///INIT
 const PORT = 3000;
@@ -14,12 +16,14 @@ const DB = 'mongodb+srv://sultan:1qwerty7@cluster0.aulfxyh.mongodb.net/?retryWri
 ///MIDDLEWARE
 app.use(express.json()); 
 app.use(authRouter);   
-
-/// CONNECTION 
+app.use(adminRouter);   
+app.use(productRouter);  
+ 
+/// CONNECTION  
 mongoose.set("strictQuery", false);
 mongoose.connect(DB).then(()=>{
     console.log('Connection successful')
-}).catch(e => {
+}).catch(e => { 
     console.log(e);  
 });  
 
