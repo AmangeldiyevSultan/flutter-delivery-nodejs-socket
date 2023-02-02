@@ -4,6 +4,7 @@ import '../../../common/widgets/loader.dart';
 import '../../../constants/global_variables.dart';
 import '../../../models/product.dart';
 import '../services/home_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryDealsScreen extends StatefulWidget {
   static const String routeName = '/category-deals';
@@ -21,6 +22,8 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
   List<Product>? productList;
   final HomeServices homeServices = HomeServices();
 
+  String? category;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +40,15 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    category = widget.category == 'Mobiles'
+        ? AppLocalizations.of(context)!.mobiles
+        : widget.category == 'Essentials'
+            ? AppLocalizations.of(context)!.essentials
+            : widget.category == 'Appliances'
+                ? AppLocalizations.of(context)!.appliances
+                : widget.category == 'Books'
+                    ? AppLocalizations.of(context)!.books
+                    : AppLocalizations.of(context)!.fashion;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -47,7 +59,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
             ),
           ),
           title: Text(
-            widget.category,
+            category!,
             style: const TextStyle(
               color: Colors.black,
             ),
@@ -63,7 +75,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Keep shopping for ${widget.category}',
+                    '${AppLocalizations.of(context)!.keepShoppingFor} ${category!}',
                     style: const TextStyle(
                       fontSize: 20,
                     ),

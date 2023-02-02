@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../auth/screens/auth_screen.dart';
+import '../../auth/services/auth_service.dart';
 import 'account_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TopButtons extends StatelessWidget {
   const TopButtons({Key? key}) : super(key: key);
@@ -12,11 +15,11 @@ class TopButtons extends StatelessWidget {
         Row(
           children: [
             AccountButton(
-              text: 'Your Orders',
+              text: AppLocalizations.of(context)!.yourOrders,
               onTap: () {},
             ),
             AccountButton(
-              text: 'Turn Seller',
+              text: AppLocalizations.of(context)!.turnSeller,
               onTap: () {},
             ),
           ],
@@ -24,11 +27,17 @@ class TopButtons extends StatelessWidget {
         const SizedBox(height: 10),
         Row(
           children: [
-            AccountButton(text: 'Log Out', onTap: () {}
+            AccountButton(
+                text: AppLocalizations.of(context)!.logout,
+                onTap: () {
+                  AuthService().logOut(context);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AuthScreen.routeName, (route) => false);
+                }
                 // AccountServices().logOut(context),
                 ),
             AccountButton(
-              text: 'Your Wish List',
+              text: AppLocalizations.of(context)!.yourWishList,
               onTap: () {},
             ),
           ],

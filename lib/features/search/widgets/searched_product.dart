@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/widgets/stars.dart';
 import '../../../models/product.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchedProduct extends StatelessWidget {
   final Product product;
@@ -69,14 +70,15 @@ class SearchedProduct extends StatelessWidget {
                   Container(
                     width: 235,
                     padding: const EdgeInsets.only(left: 10),
-                    child: const Text('Eligible for FREE Shipping'),
+                    child: Text(
+                        AppLocalizations.of(context)!.eligibleForFreeShipping),
                   ),
                   Container(
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
-                    child: const Text(
-                      'In Stock',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.inStock,
+                      style: const TextStyle(
                         color: Colors.teal,
                       ),
                       maxLines: 2,

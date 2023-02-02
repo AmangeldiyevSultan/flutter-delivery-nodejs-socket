@@ -7,6 +7,7 @@ import '../../home/widgets/address_box.dart';
 import '../../product_details/screens/product_detail_screen.dart';
 import '../services/search_services.dart';
 import '../widgets/searched_product.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String routeName = '/search-screen';
@@ -95,7 +96,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search Amazon.in',
+                        hintText:
+                            '${AppLocalizations.of(context)!.search} Amazon.in',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,

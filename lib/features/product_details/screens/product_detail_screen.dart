@@ -11,6 +11,7 @@ import '../../../models/product.dart';
 import '../../../providers/user_provider.dart';
 import '../../search/screens/search_screen.dart';
 import '../services/product_detail_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   static const String routeName = '/product-details';
@@ -188,7 +189,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.all(8),
               child: RichText(
                 text: TextSpan(
-                  text: 'Deal Price: ',
+                  text: '${AppLocalizations.of(context)!.dealPrice}: ',
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
@@ -218,7 +219,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: CustomButton(
-                text: 'Buy Now',
+                text: '${AppLocalizations.of(context)!.buyNow}',
                 onTap: () {},
               ),
             ),
@@ -226,7 +227,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: CustomButton(
-                text: 'Add to Cart',
+                text: AppLocalizations.of(context)!.addToCart,
                 onTap: addToCart,
                 color: const Color.fromRGBO(254, 216, 19, 1),
               ),
@@ -236,11 +237,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               color: Colors.black12,
               height: 5,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                'Rate The Product',
-                style: TextStyle(
+                AppLocalizations.of(context)!.rateTheProduct,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),

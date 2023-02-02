@@ -9,6 +9,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddProductScreen extends StatefulWidget {
   static const String routeName = '/add-product';
@@ -89,9 +90,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 decoration: const BoxDecoration(
                     gradient: GlobalVariables.appBarGradient),
               ),
-              title: const Text(
-                'Add Product',
-                style: TextStyle(color: Colors.black),
+              title: Text(
+                AppLocalizations.of(context)!.addProduct,
+                style: const TextStyle(color: Colors.black),
               ))),
       body: SingleChildScrollView(
           child: Form(
@@ -145,7 +146,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   height: 15,
                                 ),
                                 Text(
-                                  'Select Product',
+                                  AppLocalizations.of(context)!.selectProduct,
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.grey.shade400),
@@ -157,24 +158,28 @@ class _AddProductScreenState extends State<AddProductScreen> {
               height: 30,
             ),
             CustomTextField(
-                controller: productNameController, hintText: 'Product Name'),
+                controller: productNameController,
+                hintText: AppLocalizations.of(context)!.productName),
             const SizedBox(
               height: 10,
             ),
             CustomTextField(
               controller: descriptionController,
-              hintText: 'Description Name',
+              hintText: AppLocalizations.of(context)!.descriptionName,
               maxLines: 7,
             ),
             const SizedBox(
               height: 10,
             ),
-            CustomTextField(controller: priceController, hintText: 'Price'),
+            CustomTextField(
+                controller: priceController,
+                hintText: AppLocalizations.of(context)!.price),
             const SizedBox(
               height: 10,
             ),
             CustomTextField(
-                controller: quantityController, hintText: 'Quantity'),
+                controller: quantityController,
+                hintText: AppLocalizations.of(context)!.quantity),
             SizedBox(
               width: double.maxFinite,
               child: DropdownButton(
@@ -182,7 +187,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 icon: const Icon(Icons.keyboard_arrow_down),
                 items: productCategories
                     .map((item) => DropdownMenuItem<String>(
-                        value: item, child: Text(item)))
+                        value: item,
+                        child: Text(
+                          item == 'Mobiles'
+                              ? AppLocalizations.of(context)!.mobiles
+                              : item == 'Essentials'
+                                  ? AppLocalizations.of(context)!.essentials
+                                  : item == 'Appliances'
+                                      ? AppLocalizations.of(context)!.appliances
+                                      : item == 'Books'
+                                          ? AppLocalizations.of(context)!.books
+                                          : AppLocalizations.of(context)!
+                                              .fashion,
+                        )))
                     .toList(),
                 onChanged: (newVal) {
                   setState(() {
@@ -194,7 +211,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
             const SizedBox(
               height: 10,
             ),
-            CustomButton(text: 'Sell', onTap: sellProduct)
+            CustomButton(
+                text: AppLocalizations.of(context)!.sell, onTap: sellProduct)
           ]),
         ),
       )),

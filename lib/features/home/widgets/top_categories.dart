@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
 import '../screens/category_deals_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TopCategories extends StatelessWidget {
   const TopCategories({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class TopCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 70,
       child: ListView.builder(
         itemCount: GlobalVariables.categoryImages.length,
         scrollDirection: Axis.horizontal,
@@ -40,7 +41,19 @@ class TopCategories extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  GlobalVariables.categoryImages[index]['title']!,
+                  GlobalVariables.categoryImages[index]['title']! == 'Mobiles'
+                      ? AppLocalizations.of(context)!.mobiles
+                      : GlobalVariables.categoryImages[index]['title']! ==
+                              'Essentials'
+                          ? AppLocalizations.of(context)!.essentials
+                          : GlobalVariables.categoryImages[index]['title']! ==
+                                  'Appliances'
+                              ? AppLocalizations.of(context)!.appliances
+                              : GlobalVariables.categoryImages[index]
+                                          ['title']! ==
+                                      'Books'
+                                  ? AppLocalizations.of(context)!.books
+                                  : AppLocalizations.of(context)!.fashion,
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,

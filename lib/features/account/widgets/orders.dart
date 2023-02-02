@@ -2,6 +2,7 @@ import 'package:amazon_clone/features/account/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
@@ -47,9 +48,9 @@ class _OrdersState extends State<Orders> {
               padding: const EdgeInsets.only(
                 left: 15,
               ),
-              child: const Text(
-                'Your Orders',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.yourOrders,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -60,7 +61,7 @@ class _OrdersState extends State<Orders> {
                 right: 15,
               ),
               child: Text(
-                'See all',
+                AppLocalizations.of(context)!.seeAll,
                 style: TextStyle(
                   color: GlobalVariables.selectedNavBarColor,
                 ),

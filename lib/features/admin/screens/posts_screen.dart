@@ -3,11 +3,11 @@ import 'package:amazon_clone/features/account/widgets/single_product.dart';
 import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/models/product.dart';
-import 'package:amazon_clone/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostsScreen extends StatefulWidget {
   static const String routeName = '/admin-post-screen';
@@ -99,7 +99,7 @@ class _PostsScreenState extends State<PostsScreen> {
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add),
                 onPressed: navigateToAddProduct,
-                tooltip: 'Add a Product',
+                tooltip: AppLocalizations.of(context)!.addProduct,
               ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,

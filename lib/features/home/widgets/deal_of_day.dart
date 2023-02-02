@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DealOfDay extends StatefulWidget {
   const DealOfDay({Key? key}) : super(key: key);
@@ -46,9 +47,9 @@ class _DealOfDayState extends State<DealOfDay> {
           Container(
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.only(left: 10, top: 15),
-            child: const Text(
-              'Deal of the day',
-              style: TextStyle(fontSize: 20),
+            child: Text(
+              AppLocalizations.of(context)!.dealOfTheDay,
+              style: const TextStyle(fontSize: 20),
             ),
           ),
           Image.network(
@@ -70,7 +71,7 @@ class _DealOfDayState extends State<DealOfDay> {
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.only(left: 15, top: 5, right: 40),
             child: const Text(
-              'Rivaan',
+              '',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

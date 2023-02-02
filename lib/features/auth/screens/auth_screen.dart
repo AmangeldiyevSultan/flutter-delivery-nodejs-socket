@@ -4,7 +4,11 @@ import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_textfield.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/auth/services/auth_service.dart';
+import 'package:amazon_clone/l10n/l10n.dart';
+import 'package:amazon_clone/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 enum Auth { signin, signup }
 
@@ -54,7 +58,44 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    final locale = provider.locale;
     return Scaffold(
+      appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context)!.welcome,
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                  value: locale,
+                  icon: Container(width: 12),
+                  items: L10n.all.map((locale) {
+                    final flag = L10n.getFlag(locale.languageCode);
+                    return DropdownMenuItem(
+                      child: Center(
+                        child: Text(
+                          flag,
+                          style: TextStyle(fontSize: 32),
+                        ),
+                      ),
+                      value: locale,
+                      onTap: () {
+                        final provider =
+                            Provider.of<LocaleProvider>(context, listen: false);
+                        provider.setLocale(locale);
+                      },
+                    );
+                  }).toList(),
+                  onChanged: (_) {},
+                )),
+              ],
+            ),
+          ]),
       backgroundColor: GlobalVariables.greyBackgroundCOlor,
       body: SafeArea(
           child: Padding(
@@ -63,16 +104,12 @@ class _AuthScreenState extends State<AuthScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            Text(
-              "Welcome",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-            ),
             ListTile(
               tileColor: _auth == Auth.signup
                   ? GlobalVariables.backgroundColor
                   : Colors.transparent,
               title: Text(
-                "Create Account",
+                AppLocalizations.of(context)!.createAccount,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               leading: Radio(
@@ -95,7 +132,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Column(children: [
                     CustomTextField(
                       controller: _nameController,
-                      hintText: "Name",
+                      hintText: AppLocalizations.of(context)!.name,
                     ),
                     SizedBox(
                       height: 10,
@@ -109,13 +146,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     CustomTextField(
                       controller: _passwordController,
-                      hintText: "Password",
+                      hintText: AppLocalizations.of(context)!.password,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     CustomButton(
-                        text: "Sign Up",
+                        text: AppLocalizations.of(context)!.signup,
                         onTap: () {
                           if (_signUpFormKey.currentState!.validate()) {
                             signUpUser();
@@ -129,7 +166,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ? GlobalVariables.backgroundColor
                   : Colors.transparent,
               title: Text(
-                "Sign-In",
+                AppLocalizations.of(context)!.signin,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               leading: Radio(
@@ -159,13 +196,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     CustomTextField(
                       controller: _passwordController,
-                      hintText: "Password",
+                      hintText: AppLocalizations.of(context)!.password,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     CustomButton(
-                        text: "Sign-In",
+                        text: AppLocalizations.of(context)!.signin,
                         onTap: () {
                           signInUser();
                         })

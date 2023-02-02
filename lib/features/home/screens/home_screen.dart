@@ -1,11 +1,15 @@
+import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
 import 'package:amazon_clone/features/home/widgets/top_categories.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/global_variables.dart';
 
@@ -78,7 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search Amazon.in',
+                        hintText:
+                            '${AppLocalizations.of(context)!.search} Amazon.in',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -99,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(children: const [
+        child: Column(children: [
           AddressBox(),
           SizedBox(
             height: 10,

@@ -1,0 +1,150 @@
+{
+    "language": "English",
+    "@language": {
+        "description": "The current Language"
+    },
+    "welcome": "Welcome",
+    "@welcome": {
+        "description": "Greeting"
+    },
+    "createAccount": "Create Account",
+    "@createAccount": {
+        "description": "Creating Account"
+    },
+    "name": "Name",
+    "@name": {
+        "description": "naming"
+    },
+    "password": "Password",
+    "@password": {
+        "description": "typing password"
+    },
+    "signup": "Sign Up",
+    "@signup": {
+        "description": "sign up to app"
+    },
+    "signin": "Sign In",
+    "@signin": {
+        "description": "sign in to app"
+    },
+
+
+    "search": "Search",
+    "@search": {
+        "description": "searching"
+    },
+    "logout": "Log out",
+    "@logout": {
+        "description": "logout"
+    },
+    "deliveryto": "Delivery to ",
+    "@deliveryto": {
+        "description": "deliveryTo"
+    },
+    "mobiles": "Mobiles",
+    "@mobiles": {
+        "description": "mobiles"
+    },
+    "essentials": "Essentials",
+    "@essentials": {
+        "description": "essentials"
+    },
+    "appliances": "Appliances",
+    "@appliances": {
+        "description": "appliances"
+    },
+    "books": "Books",
+    "@books": {
+        "description": "books"
+    },
+    "fashion": "Fashion",
+    "@fashion": {
+        "description": "fashion"
+    },
+    "dealOfTheDay": "Deal of The Day",
+    "@dealOfTheDay": {
+        "description": "dealOfTheDay"
+    },
+    "hello": "Hello",
+    "@hello": {
+        "description": "hello"
+    },
+    "yourOrders": "Your Orders",
+    "@yourOrders": {
+        "description": "yourOrders"
+    },
+    "turnSeller": "Turn Seller",
+    "@turnSeller": {
+        "description": "turnSeller"
+    },
+    "yourWishList": "Your Wish List",
+    "@yourWishList": {
+        "description": "yourWishList"
+    },
+    "seeAll": "See All",
+    "@seeAll": {
+        "description": "seeAll"
+    },
+    "keepShoppingFor": "Keep shopping for",
+    "@keepShoppingFor": {
+        "description": "keepShoppingFor"
+    },
+    "dealPrice": "Deal Price",
+    "@dealPrice": {
+        "description": "dealPrice"
+    },
+    "buyNow": "Buy Now",
+    "@buyNow": {
+        "description": "buyNow"
+    },
+    "addToCart": "Add to Cart",
+    "@dealPrice": {
+        "description": "addToCart"
+    },
+    "rateTheProduct": "Rate The Product",
+    "@rateTheProduct": {
+        "description": "rateTheProduct"
+    },
+    "inStock": "In Stock",
+    "@inStock": {
+        "description": "inStock"
+    },
+    "eligibleForFreeShipping": "Eligible for FREE Shipping",
+    "@eligibleForFreeShipping": {
+        "description": "eligibleForFreeShipping"
+    },
+
+
+    "admin": "Admin",
+    "@admin": {
+        "description": "admin"
+    },
+    "selectProduct": "Select Product",
+    "@selectProduct": {
+        "description": "selectProduct"
+    },
+    "productName": "Product Name",
+    "@productName": {
+        "description": "productName"
+    },
+    "descriptionName": "Description Name",
+    "@descriptionName": {
+        "description": "descriptionName"
+    },
+    "price": "Price",
+    "@price": {
+        "description": "price"
+    },
+    "quantity": "Quantity",
+    "@quantity": {
+        "description": "quantity"
+    },
+    "sell": "Sell",
+    "@sell": {
+        "description": "sell"
+    },
+    "addProduct": "Add Product",
+    "@addProduct": {
+        "description": "addProduct"
+    }
+}

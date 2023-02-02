@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../providers/user_provider.dart';
 
@@ -32,7 +33,7 @@ class AddressBox extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 5),
               child: Text(
-                'Delivery to ${user.name} - ${user.address}',
+                '${AppLocalizations.of(context)!.deliveryto} ${user.name} - ${user.address}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
