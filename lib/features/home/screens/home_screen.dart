@@ -1,14 +1,9 @@
-import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
-import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
 import 'package:amazon_clone/features/home/widgets/top_categories.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
-import 'package:amazon_clone/models/user.dart';
-import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/global_variables.dart';
@@ -28,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -104,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
+        child: Column(children: const [
           AddressBox(),
           SizedBox(
             height: 10,
