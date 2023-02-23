@@ -73,6 +73,7 @@ adminRouter.get("/admin/analytics", admin, async (req, res) => {
   try {
 
     const orders = await Order.find({});
+    let totalEarnings = 0; 
 
     for (let i = 0; i < orders.length; i++) {
       for (let j = 0; j < orders[i].products.length; j++) {
