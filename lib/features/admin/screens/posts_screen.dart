@@ -4,9 +4,6 @@ import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostsScreen extends StatefulWidget {
@@ -97,9 +94,9 @@ class _PostsScreenState extends State<PostsScreen> {
                     );
                   }),
               floatingActionButton: FloatingActionButton(
-                child: const Icon(Icons.add),
                 onPressed: navigateToAddProduct,
                 tooltip: AppLocalizations.of(context)!.addProduct,
+                child: const Icon(Icons.add),
               ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,

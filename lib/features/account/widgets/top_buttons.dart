@@ -1,3 +1,4 @@
+import 'package:amazon_clone/features/account/services/account_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../auth/screens/auth_screen.dart';
@@ -30,7 +31,7 @@ class TopButtons extends StatelessWidget {
             AccountButton(
                 text: AppLocalizations.of(context)!.logout,
                 onTap: () {
-                  AuthService().logOut(context);
+                  AccountServices().logOut(context);
                   Navigator.pushNamedAndRemoveUntil(
                       context, AuthScreen.routeName, (route) => false);
                 }

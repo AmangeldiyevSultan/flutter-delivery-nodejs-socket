@@ -60,7 +60,7 @@ class HomeServices {
 
     try {
       http.Response res =
-          await http.get(Uri.parse('$uri/api/deal-of-day'), headers: {
+          await http.get(Uri.parse('$uri/api/deal-of-the-day'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });

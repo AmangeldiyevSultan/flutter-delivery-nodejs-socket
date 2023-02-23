@@ -14,8 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../home/screens/home_screen.dart';
-
 class AuthService {
   // sign up user
   void signUpUser({
@@ -32,7 +30,8 @@ class AuthService {
           password: password,
           address: '',
           type: '',
-          token: '');
+          token: '',
+          cart: []);
       http.Response response = await http.post(Uri.parse('$uri/api/signup'),
           body: user.toJson(),
           headers: <String, String>{
@@ -80,16 +79,6 @@ class AuthService {
                 : Navigator.pushNamedAndRemoveUntil(
                     context, AdminScreen.routeName, (route) => false);
           });
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
-  }
-
-  void logOut(BuildContext context) async {
-    try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      await sharedPreferences.setString('x-auth-token', '');
     } catch (e) {
       showSnackBar(context, e.toString());
     }

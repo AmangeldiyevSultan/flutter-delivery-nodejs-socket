@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -53,10 +52,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void addToCart() {
-    // productDetailsServices.addToCart(
-    //   context: context,
-    //   product: widget.product,
-    // );
+    productDetailsServices.addToCart(
+      context: context,
+      product: widget.product,
+    );
   }
 
   @override
@@ -219,7 +218,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: CustomButton(
-                text: '${AppLocalizations.of(context)!.buyNow}',
+                text: AppLocalizations.of(context)!.buyNow,
                 onTap: () {},
               ),
             ),
@@ -238,7 +237,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 5,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
                 AppLocalizations.of(context)!.rateTheProduct,
                 style: const TextStyle(

@@ -1,12 +1,6 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'dart:io';
-import 'dart:math';
-
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
-import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:amazon_clone/l10n/l10n.dart';
 import 'package:amazon_clone/providers/locale_provider.dart';
@@ -55,10 +49,10 @@ class _MyAppState extends State<MyApp> {
         title: 'Amazone Clone',
         theme: ThemeData(
             scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-            colorScheme:
-                ColorScheme.light(primary: GlobalVariables.secondaryColor),
+            colorScheme: const ColorScheme.light(
+                primary: GlobalVariables.secondaryColor),
             appBarTheme: const AppBarTheme(elevation: 0),
-            iconTheme: IconThemeData(color: Colors.black)),
+            iconTheme: const IconThemeData(color: Colors.black)),
         locale: localeProvider.locale,
         supportedLocales: L10n.all,
         localizationsDelegates: const [

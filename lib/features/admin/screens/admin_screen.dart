@@ -1,8 +1,8 @@
+import 'package:amazon_clone/features/account/services/account_services.dart';
+import 'package:amazon_clone/features/admin/screens/analytics_screen.dart';
+import 'package:amazon_clone/features/admin/screens/order_screen.dart';
 import 'package:amazon_clone/features/admin/screens/posts_screen.dart';
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +27,8 @@ class _AdminScreenState extends State<AdminScreen> {
 
   List<Widget> pages = [
     const PostsScreen(),
-    const Center(child: Text('Analytics Page')),
-    const Center(child: Text('Cart Page')),
+    const AnalyticsScreen(),
+    const OrdersScreen(),
   ];
 
   void updatePage(int page) {
@@ -54,7 +54,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      AuthService().logOut(context);
+                      AccountServices().logOut(context);
                       Navigator.pushNamedAndRemoveUntil(
                           context, AuthScreen.routeName, (route) => false);
                     },
