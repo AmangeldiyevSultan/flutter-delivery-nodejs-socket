@@ -1,7 +1,7 @@
 //IMPORT FROM PACKAGES
-const e = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require("cors");
 ///IMPORT FROM OTHER FILES
 const authRouter = require('./routes/auth'); 
 const productRouter = require('./routes/product');
@@ -15,11 +15,12 @@ const DB = 'mongodb+srv://sultan:1qwerty7@cluster0.aulfxyh.mongodb.net/?retryWri
  
 
 ///MIDDLEWARE 
+app.use(cors());
 app.use(express.json()); 
 app.use(authRouter);   
 app.use(adminRouter);   
 app.use(productRouter);  
-app.use(userRouter);  
+app.use(userRouter); 
  
 /// CONNECTION  
 mongoose.set("strictQuery", false);

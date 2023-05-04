@@ -1,6 +1,6 @@
 {
-    "name": "amazon_clone",
-    "short_name": "amazon_clone",
+    "name": "gooddelivary",
+    "short_name": "gooddelivary",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

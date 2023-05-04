@@ -2,13 +2,13 @@
 
 import 'dart:convert';
 
-import 'package:amazon_clone/common/widgets/bottom_bar.dart';
-import 'package:amazon_clone/constants/error_handling.dart';
-import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/constants/utils.dart';
-import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
-import 'package:amazon_clone/models/user.dart';
-import 'package:amazon_clone/providers/user_provider.dart';
+import 'package:gooddelivary/common/widgets/bottom_bar.dart';
+import 'package:gooddelivary/constants/error_handling.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/constants/utils.dart';
+import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
+import 'package:gooddelivary/models/user.dart';
+import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -105,17 +105,19 @@ class AuthService {
       var response = jsonDecode(tokenRes.body);
 
       if (response == true) {
-        http.Response userRes =
-            await http.get(Uri.parse('$uri/'), headers: <String, String>{
-          'Content-type': 'application/json; charset=UTF-8',
-          'x-auth-token': token,
-        });
+        http.Response userRes = await http.get(
+          Uri.parse('$uri/'),
+          headers: <String, String>{
+            'Content-type': 'application/json; charset=UTF-8',
+            'x-auth-token': token,
+          },
+        );
 
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(userRes.body);
       }
     } catch (e) {
-      showSnackBar(context, e.toString());
+      // showSnackBar(context, e.toString());
     }
   }
 }

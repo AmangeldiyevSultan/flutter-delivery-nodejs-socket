@@ -185,6 +185,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 width: double.infinity,
                 style: ApplePayButtonStyle.whiteOutline,
                 type: ApplePayButtonType.buy,
+                // ignore: deprecated_member_use
                 paymentConfigurationAsset: 'applepay.json',
                 onPaymentResult: onApplePayResult,
                 paymentItems: paymentItems,
@@ -195,6 +196,7 @@ class _AddressScreenState extends State<AddressScreen> {
               const SizedBox(height: 10),
               GooglePayButton(
                 onPressed: () => payPressed(address),
+                // ignore: deprecated_member_use
                 paymentConfigurationAsset: 'gpay.json',
                 onPaymentResult: onGooglePayResult,
                 paymentItems: paymentItems,

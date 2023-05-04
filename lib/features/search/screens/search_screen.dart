@@ -97,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         hintText:
-                            '${AppLocalizations.of(context)!.search} Amazon.in',
+                            '${AppLocalizations.of(context)!.search} GoodDelivary',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,

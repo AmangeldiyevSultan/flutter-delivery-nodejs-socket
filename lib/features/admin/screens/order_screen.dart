@@ -1,4 +1,4 @@
-import 'package:amazon_clone/features/admin/services/admin_services.dart';
+import 'package:gooddelivary/features/admin/services/admin_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/loader.dart';
@@ -50,6 +50,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   height: 140,
                   child: SingleProduct(
                     image: orderData.products[0].images[0],
+                    product: orderData.products[0].name,
                   ),
                 ),
               );

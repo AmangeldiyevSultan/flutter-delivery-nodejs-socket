@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:amazon_clone/common/widgets/custom_button.dart';
-import 'package:amazon_clone/common/widgets/custom_textfield.dart';
-import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/features/auth/services/auth_service.dart';
-import 'package:amazon_clone/l10n/l10n.dart';
-import 'package:amazon_clone/providers/locale_provider.dart';
+import 'package:gooddelivary/common/widgets/custom_button.dart';
+import 'package:gooddelivary/common/widgets/custom_textfield.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/features/auth/services/auth_service.dart';
+import 'package:gooddelivary/l10n/l10n.dart';
+import 'package:gooddelivary/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';

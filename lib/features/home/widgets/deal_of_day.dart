@@ -1,4 +1,4 @@
-import 'package:amazon_clone/features/home/services/home_services.dart';
+import 'package:gooddelivary/features/home/services/home_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,7 +25,6 @@ class _DealOfDayState extends State<DealOfDay> {
 
   void fetchDealOfDay() async {
     product = await homeServices.fetchDealOfDay(context: context);
-    print(product!.images);
     setState(() {});
   }
 
@@ -65,7 +64,7 @@ class _DealOfDayState extends State<DealOfDay> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         '\$${product!.price}',
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                     Container(

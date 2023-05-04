@@ -1,7 +1,7 @@
+import 'package:gooddelivary/common/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import '../../../common/widgets/loader.dart';
 import '../models/sales.dart';
 import '../services/admin_services.dart';
 import '../widgets/category_products_chart.dart';

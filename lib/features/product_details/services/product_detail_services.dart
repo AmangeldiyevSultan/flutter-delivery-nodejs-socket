@@ -9,7 +9,7 @@ import '../../../constants/utils.dart';
 import '../../../models/product.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
-import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
 
 class ProductDetailsServices {
   void addToCart({
@@ -29,7 +29,7 @@ class ProductDetailsServices {
           'id': product.id!,
         }),
       );
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -63,7 +63,7 @@ class ProductDetailsServices {
           'rating': rating,
         }),
       );
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,

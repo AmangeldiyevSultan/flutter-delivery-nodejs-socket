@@ -1,7 +1,7 @@
-import 'package:amazon_clone/features/account/services/account_services.dart';
-import 'package:amazon_clone/features/admin/screens/analytics_screen.dart';
-import 'package:amazon_clone/features/admin/screens/order_screen.dart';
-import 'package:amazon_clone/features/admin/screens/posts_screen.dart';
+import 'package:gooddelivary/features/account/services/account_services.dart';
+import 'package:gooddelivary/features/admin/screens/analytics_screen.dart';
+import 'package:gooddelivary/features/admin/screens/order_screen.dart';
+import 'package:gooddelivary/features/admin/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,6 @@ import '../../../constants/global_variables.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/locale_provider.dart';
 import '../../auth/screens/auth_screen.dart';
-import '../../auth/services/auth_service.dart';
 
 class AdminScreen extends StatefulWidget {
   static const String routeName = '/admin-screen';
@@ -62,15 +61,7 @@ class _AdminScreenState extends State<AdminScreen> {
                       child: Text(AppLocalizations.of(context)!.logout),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset(
-                      'assets/images/amazon_in.png',
-                      height: 45,
-                      width: 120,
-                      color: Colors.black,
-                    ),
-                  ),
+                  const Text('GoodDelivary'),
                   Text(
                     AppLocalizations.of(context)!.admin,
                     style: const TextStyle(

@@ -7,7 +7,7 @@ import '../../../constants/error_handling.dart';
 import '../../../constants/utils.dart';
 import '../../../models/product.dart';
 import '../../../providers/user_provider.dart';
-import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
 
 class SearchServices {
   Future<List<Product>> fetchSearchedProduct({
@@ -24,7 +24,7 @@ class SearchServices {
           'x-auth-token': userProvider.user.token,
         },
       );
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,

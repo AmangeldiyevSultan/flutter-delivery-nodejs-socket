@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.amazon_clone">
+    package="com.example.gooddelivary">
    <application
-        android:label="amazon_clone"
+        android:label="gooddelivary"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

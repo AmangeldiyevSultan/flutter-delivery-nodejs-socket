@@ -1,13 +1,13 @@
-import 'package:amazon_clone/common/widgets/bottom_bar.dart';
-import 'package:amazon_clone/features/address/screens/address_screen.dart';
-import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
-import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
-import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
-import 'package:amazon_clone/features/home/screens/home_screen.dart';
-import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
-import 'package:amazon_clone/features/order_details/screens/order_detail.dart';
-import 'package:amazon_clone/features/product_details/screens/product_detail_screen.dart';
-import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:gooddelivary/common/widgets/bottom_bar.dart';
+import 'package:gooddelivary/features/address/screens/address_screen.dart';
+import 'package:gooddelivary/features/admin/screens/add_product_screen.dart';
+import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
+import 'package:gooddelivary/features/home/screens/category_deals_screen.dart';
+import 'package:gooddelivary/features/home/screens/home_screen.dart';
+import 'package:gooddelivary/features/auth/screens/auth_screen.dart';
+import 'package:gooddelivary/features/order_details/screens/order_detail.dart';
+import 'package:gooddelivary/features/product_details/screens/product_detail_screen.dart';
+import 'package:gooddelivary/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'models/order.dart';

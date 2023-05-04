@@ -1,4 +1,4 @@
-import 'package:amazon_clone/features/cart/services/cart_services.dart';
+import 'package:gooddelivary/features/cart/services/cart_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

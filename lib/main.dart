@@ -1,11 +1,13 @@
-import 'package:amazon_clone/common/widgets/bottom_bar.dart';
-import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
-import 'package:amazon_clone/features/auth/services/auth_service.dart';
-import 'package:amazon_clone/l10n/l10n.dart';
-import 'package:amazon_clone/providers/locale_provider.dart';
-import 'package:amazon_clone/providers/user_provider.dart';
-import 'package:amazon_clone/routes.dart';
+import 'package:gooddelivary/common/widgets/bottom_bar.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/features/account/screens/account_screen.dart';
+import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
+import 'package:gooddelivary/features/auth/services/auth_service.dart';
+import 'package:gooddelivary/features/home/screens/home_screen.dart';
+import 'package:gooddelivary/l10n/l10n.dart';
+import 'package:gooddelivary/providers/locale_provider.dart';
+import 'package:gooddelivary/providers/user_provider.dart';
+import 'package:gooddelivary/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +48,7 @@ class _MyAppState extends State<MyApp> {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
-        title: 'Amazone Clone',
+        title: 'GoodDelivary',
         theme: ThemeData(
             scaffoldBackgroundColor: GlobalVariables.backgroundColor,
             colorScheme: const ColorScheme.light(

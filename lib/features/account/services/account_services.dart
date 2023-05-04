@@ -23,9 +23,7 @@ class AccountServices {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });
-
-      print(jsonDecode(res.body)[0]);
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -51,12 +49,13 @@ class AccountServices {
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      await sharedPreferences.setString('x-auth-token', '');
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        AuthScreen.routeName,
-        (route) => false,
-      );
+      await sharedPreferences.setString('x-auth-token', '').then((value) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AuthScreen.routeName,
+          (route) => false,
+        );
+      });
     } catch (e) {
       showSnackBar(context, e.toString());
     }

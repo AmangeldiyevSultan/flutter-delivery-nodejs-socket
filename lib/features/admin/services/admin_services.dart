@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:amazon_clone/constants/error_handling.dart';
-import 'package:amazon_clone/constants/utils.dart';
-import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
-import 'package:amazon_clone/models/product.dart';
-import 'package:amazon_clone/providers/user_provider.dart';
+import 'package:gooddelivary/constants/error_handling.dart';
+import 'package:gooddelivary/constants/utils.dart';
+import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
+import 'package:gooddelivary/models/product.dart';
+import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -50,6 +50,7 @@ class AdminServices {
             'x-auth-token': userProvider.user.token,
           },
           body: product.toJson());
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
           response: res,
           context: context,
@@ -73,6 +74,7 @@ class AdminServices {
         'x-auth-token': userProvider.user.token,
       });
 
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
           response: res,
           context: context,
@@ -109,7 +111,7 @@ class AdminServices {
           'id': product.id,
         }),
       );
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
           response: res,
           context: context,
@@ -130,7 +132,7 @@ class AdminServices {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -172,7 +174,7 @@ class AdminServices {
           'status': status,
         }),
       );
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -193,7 +195,7 @@ class AdminServices {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });
-
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,

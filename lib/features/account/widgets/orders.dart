@@ -1,5 +1,5 @@
-import 'package:amazon_clone/features/account/services/account_services.dart';
-import 'package:amazon_clone/features/account/widgets/single_product.dart';
+import 'package:gooddelivary/features/account/services/account_services.dart';
+import 'package:gooddelivary/features/account/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/loader.dart';
@@ -87,6 +87,7 @@ class _OrdersState extends State<Orders> {
                       },
                       child: SingleProduct(
                         image: orders![index].products[0].images[0],
+                        product: orders![index].products[0].name,
                       ),
                     );
                   }),

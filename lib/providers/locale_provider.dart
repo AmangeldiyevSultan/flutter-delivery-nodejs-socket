@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:amazon_clone/l10n/l10n.dart';
+import 'package:gooddelivary/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class LocaleProvider extends ChangeNotifier {

@@ -1,8 +1,8 @@
-import 'package:amazon_clone/features/home/widgets/address_box.dart';
-import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
-import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
-import 'package:amazon_clone/features/home/widgets/top_categories.dart';
-import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:gooddelivary/features/home/widgets/address_box.dart';
+import 'package:gooddelivary/features/home/widgets/carousel_image.dart';
+import 'package:gooddelivary/features/home/widgets/deal_of_day.dart';
+import 'package:gooddelivary/features/home/widgets/top_categories.dart';
+import 'package:gooddelivary/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         hintText:
-                            '${AppLocalizations.of(context)!.search} Amazon.in',
+                            '${AppLocalizations.of(context)!.search} GoodDelivary',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,

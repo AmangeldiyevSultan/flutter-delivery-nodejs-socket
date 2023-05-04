@@ -106,7 +106,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search Amazon.in',
+                        hintText: 'Search GoodDelivary',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -227,10 +227,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   currentStep: currentStep,
                   controlsBuilder: (context, details) {
                     if (user.type == 'admin') {
-                      return CustomButton(
-                        text: 'Done',
-                        onTap: () => changeOrderStatus(details.currentStep),
-                      );
+                      if (currentStep < 3) {
+                        return CustomButton(
+                          text: 'Done',
+                          onTap: () => changeOrderStatus(details.currentStep),
+                        );
+                      }
                     }
                     return const SizedBox();
                   },

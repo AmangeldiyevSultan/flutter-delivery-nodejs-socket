@@ -1,7 +1,7 @@
-import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/features/account/widgets/below_app_bar.dart';
-import 'package:amazon_clone/features/account/widgets/orders.dart';
-import 'package:amazon_clone/features/account/widgets/top_buttons.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/features/account/widgets/below_app_bar.dart';
+import 'package:gooddelivary/features/account/widgets/orders.dart';
+import 'package:gooddelivary/features/account/widgets/top_buttons.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -31,15 +31,7 @@ class AccountScreen extends StatelessWidget {
             title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset(
-                      'assets/images/amazon_in.png',
-                      height: 45,
-                      width: 120,
-                      color: Colors.black,
-                    ),
-                  ),
+                  const Text('GoodDelivary'),
                   Container(
                     padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Row(

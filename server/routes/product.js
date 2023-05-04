@@ -11,7 +11,7 @@ const productRouter = express.Router();
   
 
 productRouter.get("/api/products/", auth, async (req, res) => {
-    try{ 
+    try{
         const product = await Product.find({category: req.query.category});
         res.json(product);   
     } catch (e) {
