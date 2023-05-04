@@ -1,9 +1,7 @@
 import 'package:gooddelivary/common/widgets/bottom_bar.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
-import 'package:gooddelivary/features/account/screens/account_screen.dart';
 import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
 import 'package:gooddelivary/features/auth/services/auth_service.dart';
-import 'package:gooddelivary/features/home/screens/home_screen.dart';
 import 'package:gooddelivary/l10n/l10n.dart';
 import 'package:gooddelivary/providers/locale_provider.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
