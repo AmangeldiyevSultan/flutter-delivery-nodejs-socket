@@ -50,6 +50,12 @@ dependencies:
   flutter_rating_bar: ^4.0.1 
   pay: ^1.0.8
   charts_flutter: ^0.12.0
+  google_maps_flutter: ^2.2.6
+  location: ^4.4.0
+  geocoder2: ^1.4.0
+  uuid: ^3.0.7
+  socket_io_client: ^2.0.2
+  
 
 dev_dependencies:
   flutter_test:

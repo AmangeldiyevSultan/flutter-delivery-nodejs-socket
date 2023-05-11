@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocoder2/geocoder2.dart';
+import 'package:gooddelivary/models/reciever_location.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../common/widgets/custom_textfield.dart';
 import '../../../constants/global_variables.dart';
@@ -22,14 +25,18 @@ class AddressScreen extends StatefulWidget {
 
 class _AddressScreenState extends State<AddressScreen> {
   final TextEditingController flatBuildingController = TextEditingController();
-  final TextEditingController areaController = TextEditingController();
   final TextEditingController pincodeController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController addressNameContoller = TextEditingController();
   final _addressFormKey = GlobalKey<FormState>();
 
-  String addressToBeUsed = "";
   List<PaymentItem> paymentItems = [];
   final AddressServices addressServices = AddressServices();
+  RecieverLocation recieverLocation = RecieverLocation();
+  String _sessionToken = '122344';
+  var uuid = const Uuid();
+  List<dynamic> _placeList = [];
+  Map<String, dynamic> _locationInfo = {};
 
   @override
   void initState() {
@@ -47,9 +54,18 @@ class _AddressScreenState extends State<AddressScreen> {
   void dispose() {
     super.dispose();
     flatBuildingController.dispose();
-    areaController.dispose();
     pincodeController.dispose();
-    cityController.dispose();
+    phoneNumberController.dispose();
+    addressNameContoller.dispose();
+  }
+
+  void onChangeLocationName() async {
+    // ignore: prefer_conditional_assignment, unnecessary_null_comparison
+    if (_sessionToken == null) {
+      _sessionToken = uuid.v4();
+    }
+    _placeList = await AddressServices().getLocationAddress(
+        addressName: addressNameContoller.text, sessionToken: _sessionToken);
   }
 
   void onApplePayResult(res) {
@@ -58,11 +74,11 @@ class _AddressScreenState extends State<AddressScreen> {
         .address
         .isEmpty) {
       addressServices.saveUserAddress(
-          context: context, address: addressToBeUsed);
+          context: context, address: _locationInfo['placeInfo']);
     }
     addressServices.placeOrder(
       context: context,
-      address: addressToBeUsed,
+      address: recieverLocation,
       totalSum: double.parse(widget.totalAmount),
     );
   }
@@ -73,41 +89,54 @@ class _AddressScreenState extends State<AddressScreen> {
         .address
         .isEmpty) {
       addressServices.saveUserAddress(
-          context: context, address: addressToBeUsed);
+          context: context, address: _locationInfo['placeInfo']);
     }
     addressServices.placeOrder(
       context: context,
-      address: addressToBeUsed,
+      address: recieverLocation,
       totalSum: double.parse(widget.totalAmount),
     );
   }
 
-  void payPressed(String addressFromProvider) {
-    addressToBeUsed = "";
+  void payPressed() {
+    bool isForm = flatBuildingController.text.isNotEmpty &&
+        pincodeController.text.isNotEmpty &&
+        phoneNumberController.text.isNotEmpty;
 
-    bool isForm = flatBuildingController.text.isNotEmpty ||
-        areaController.text.isNotEmpty ||
-        pincodeController.text.isNotEmpty ||
-        cityController.text.isNotEmpty;
-
-    if (isForm) {
+    if (!isForm) {
       if (_addressFormKey.currentState!.validate()) {
-        addressToBeUsed =
-            '${flatBuildingController.text}, ${areaController.text}, ${cityController.text} - ${pincodeController.text}';
       } else {
         throw Exception('Please enter all the values!');
       }
-    } else if (addressFromProvider.isNotEmpty) {
-      addressToBeUsed = addressFromProvider;
+    } else if (_locationInfo['placeInfo'] != null) {
+      Map<String, dynamic> personalInfo = {
+        'buidlingInfo': flatBuildingController.text,
+        'pincode': pincodeController.text,
+        'phoneNumber': phoneNumberController.text,
+      };
+      _locationInfo.addEntries(personalInfo.entries);
+      recieverLocation = RecieverLocation.fromMap(_locationInfo);
     } else {
-      showSnackBar(context, 'ERROR');
+      showSnackBar(context, 'Choose correct address');
+      throw Exception('lease enter all the values!');
     }
+  }
+
+  void getAddressCoordinates(Map<String, dynamic> place) async {
+    GeoData addressCoordinatesGeoData = await Geocoder2.getDataFromAddress(
+        address: place['description'],
+        googleMapApiKey: GlobalVariables.kGoogleApi);
+    _locationInfo = {
+      'placeInfo': place['description'],
+      'langitude': addressCoordinatesGeoData.latitude,
+      'longitude': addressCoordinatesGeoData.longitude,
+    };
+    addressNameContoller.text = '';
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    var address = context.watch<UserProvider>().user.address;
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -124,35 +153,38 @@ class _AddressScreenState extends State<AddressScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              if (address.isNotEmpty)
-                Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black12,
+              CustomTextField(
+                onChanged: (value) {
+                  setState(() {
+                    onChangeLocationName();
+                  });
+                },
+                controller: addressNameContoller,
+                hintText: _locationInfo['placeInfo'] ?? 'Address, Street',
+                hintColor: _locationInfo['placeInfo'] != null
+                    ? Colors.black
+                    : Colors.black54,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              if (addressNameContoller.text.length > 2)
+                SizedBox(
+                  height: 300,
+                  width: double.maxFinite,
+                  child: ListView.separated(
+                    itemCount: _placeList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: GestureDetector(
+                          child: Text(_placeList[index]['description']),
+                          onTap: () => getAddressCoordinates(_placeList[index]),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          address,
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'OR',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                  ),
                 ),
               Form(
                 key: _addressFormKey,
@@ -160,12 +192,7 @@ class _AddressScreenState extends State<AddressScreen> {
                   children: [
                     CustomTextField(
                       controller: flatBuildingController,
-                      hintText: 'Flat, House no, Building',
-                    ),
-                    const SizedBox(height: 10),
-                    CustomTextField(
-                      controller: areaController,
-                      hintText: 'Area, Street',
+                      hintText: 'Flat, House, Building',
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
@@ -174,8 +201,8 @@ class _AddressScreenState extends State<AddressScreen> {
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
-                      controller: cityController,
-                      hintText: 'Town/City',
+                      controller: phoneNumberController,
+                      hintText: 'Phone Number',
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -191,11 +218,11 @@ class _AddressScreenState extends State<AddressScreen> {
                 paymentItems: paymentItems,
                 margin: const EdgeInsets.only(top: 15),
                 height: 50,
-                onPressed: () => payPressed(address),
+                onPressed: () => payPressed(),
               ),
               const SizedBox(height: 10),
               GooglePayButton(
-                onPressed: () => payPressed(address),
+                onPressed: () => payPressed(),
                 // ignore: deprecated_member_use
                 paymentConfigurationAsset: 'gpay.json',
                 onPaymentResult: onGooglePayResult,

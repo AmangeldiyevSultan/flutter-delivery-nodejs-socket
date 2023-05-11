@@ -98,7 +98,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
     let user = await User.findById(req.user);
     user.cart = [];
     user = await user.save();
-
+    console.log(address);
     let order = new Order({
       products,
       totalPrice,
@@ -106,6 +106,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
       userId: req.user,
       orderedAt: new Date().getTime(),
     });
+    console.log(order); 
 
     order = await order.save();
     res.json(order); 

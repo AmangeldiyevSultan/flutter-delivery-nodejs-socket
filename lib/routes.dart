@@ -8,6 +8,7 @@ import 'package:gooddelivary/features/auth/screens/auth_screen.dart';
 import 'package:gooddelivary/features/order_details/screens/order_detail.dart';
 import 'package:gooddelivary/features/product_details/screens/product_detail_screen.dart';
 import 'package:gooddelivary/features/search/screens/search_screen.dart';
+import 'package:gooddelivary/features/order_details/screens/good_map.dart';
 import 'package:flutter/material.dart';
 
 import 'models/order.dart';
@@ -79,6 +80,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const BottomBar(),
+      );
+    case GoodMap.routeName:
+      var orderParams = routeSettings.arguments as Order;
+
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => GoodMap(
+          orderParams: orderParams,
+        ),
       );
     default:
       return MaterialPageRoute(

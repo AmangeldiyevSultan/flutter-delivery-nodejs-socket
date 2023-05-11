@@ -1,15 +1,19 @@
+import 'package:gooddelivary/client/socket_client.dart';
 import 'package:gooddelivary/common/widgets/bottom_bar.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
 import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
+import 'package:gooddelivary/features/admin/services/admin_services.dart';
 import 'package:gooddelivary/features/auth/services/auth_service.dart';
 import 'package:gooddelivary/l10n/l10n.dart';
 import 'package:gooddelivary/providers/locale_provider.dart';
+import 'package:gooddelivary/providers/location_provider.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:gooddelivary/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'features/auth/screens/auth_screen.dart';
 
@@ -21,6 +25,7 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => LocaleProvider(),
     ),
+    ChangeNotifierProvider(create: (context) => LocationProvider()),
   ], child: const MyApp()));
 }
 
@@ -33,18 +38,19 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-  final AuthService authService = AuthService();
+  final AuthService _authService = AuthService();
+  final AdminServices _adminServices = AdminServices();
 
   @override
   void initState() {
     super.initState();
-    authService.getUserData(context: context);
+    _authService.getUserData(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
-
+    _adminServices.ordersStatusForAdmin(context);
     return MaterialApp(
         title: 'GoodDelivary',
         theme: ThemeData(

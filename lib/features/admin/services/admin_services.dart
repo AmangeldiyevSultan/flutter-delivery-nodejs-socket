@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../models/order.dart';
+import '../../../providers/location_provider.dart';
 import '../models/sales.dart';
 
 class AdminServices {
@@ -181,6 +182,7 @@ class AdminServices {
         onSuccess: onSuccess,
       );
     } catch (e) {
+      print(e.toString());
       showSnackBar(context, e.toString());
     }
   }
@@ -218,5 +220,32 @@ class AdminServices {
       'sales': sales,
       'totalEarnings': totalEarning,
     };
+  }
+
+  void getCurrentLocation(String name, String orderId, context) =>
+      Provider.of<LocationProvider>(context, listen: false)
+          .getCurrentLocation(name, orderId);
+
+  void stopListeningToLocationUpdates(context) =>
+      Provider.of<LocationProvider>(context, listen: false)
+          .stopListeningToLocationUpdates();
+
+  void ordersStatusForAdmin(context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false).user;
+    if (userProvider.type == 'admin') {
+      final orders = await fetchAllOrders(context);
+      int endPoint = 0;
+      for (int i = 0; i < orders.length; i++) {
+        endPoint++;
+        if (orders[i].status == 1) {
+          endPoint = 0;
+          getCurrentLocation(userProvider.name, orders[i].id, context);
+          break;
+        }
+      }
+      if (endPoint == orders.length) {
+        stopListeningToLocationUpdates(context);
+      }
+    }
   }
 }

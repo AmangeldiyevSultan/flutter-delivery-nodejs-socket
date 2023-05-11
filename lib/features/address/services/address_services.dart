@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/models/reciever_location.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../constants/error_handling.dart';
 import '../../../constants/global_variables.dart';
@@ -46,10 +48,32 @@ class AddressServices {
     }
   }
 
+  //get location address
+  Future<List<dynamic>> getLocationAddress(
+      {required String addressName, required String sessionToken}) async {
+    List<dynamic> placeList = [];
+
+    String kGoogleApiKey = GlobalVariables.kGoogleApi;
+    String baseUrl =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request =
+        '$baseUrl?input=$addressName&key=$kGoogleApiKey&sessiontoken=$sessionToken';
+
+    var response = await http.get(Uri.parse(request));
+
+    if (response.statusCode == 200) {
+      placeList = jsonDecode(response.body.toString())['predictions'];
+    } else {
+      throw Exception('Data load failed');
+    }
+
+    return placeList;
+  }
+
   // get all the products
   void placeOrder({
     required BuildContext context,
-    required String address,
+    required RecieverLocation address,
     required double totalSum,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -61,7 +85,7 @@ class AddressServices {
           },
           body: jsonEncode({
             'cart': userProvider.user.cart,
-            'address': address,
+            'address': address.toMap(),
             'totalPrice': totalSum,
           }));
       // ignore: use_build_context_synchronously
@@ -74,6 +98,7 @@ class AddressServices {
             cart: [],
           );
           userProvider.setUserFromModel(user);
+          Navigator.pop(context);
         },
       );
     } catch (e) {

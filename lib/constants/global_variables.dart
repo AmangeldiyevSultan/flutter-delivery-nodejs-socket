@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String uri = 'http://10.202.14.20:3000';
+String uri = 'http://192.168.1.67:3000';
 
 class GlobalVariables {
   // COLORS
@@ -49,4 +49,7 @@ class GlobalVariables {
       'image': 'assets/images/fashion.jpg',
     },
   ];
+
+  //! GOOGLE API
+  static const String kGoogleApi = 'AIzaSyDpdN3_bLSeCfIVKXi-iu3UdAuu01PUxH0';
 }

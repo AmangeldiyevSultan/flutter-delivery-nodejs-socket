@@ -49,5 +49,13 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We want image for product!</string>
+	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
+	<string>App app want's to access your location to get address</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App app want's to access your location to get address.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>App app want's to access your location to get address.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string> App want's to access your location to get address.</string>
 </dict>
 </plist>

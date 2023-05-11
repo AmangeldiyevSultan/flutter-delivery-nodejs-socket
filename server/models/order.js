@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const { productSchema } = require('./product');
+const { recieverLocationSchema } = require('./reciever_location');
+const { delivaryPositionSchema } = require('./delivary_position');
 
 const orderSchema = mongoose.Schema({
     products: [
@@ -15,11 +17,9 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    address: {
-        type: String,
-        required: true,
-    },
-    userId: {
+    address:recieverLocationSchema,
+    delivaryPosition: delivaryPositionSchema, 
+    userId: {  
         required: true,
         type: String,
     },

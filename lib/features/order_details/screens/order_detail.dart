@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/features/order_details/screens/good_map.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_button.dart';
@@ -8,6 +10,7 @@ import '../../../models/order.dart';
 import '../../../providers/user_provider.dart';
 import '../../admin/services/admin_services.dart';
 import '../../search/screens/search_screen.dart';
+import 'package:provider/provider.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   static const String routeName = '/order-details';
@@ -29,6 +32,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
+  void navigateToGoodMap(Order orderParams) {
+    Navigator.pushNamed(context, GoodMap.routeName, arguments: orderParams);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +50,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       order: widget.order,
       onSuccess: () {
         setState(() {
+          adminServices.ordersStatusForAdmin(context);
           currentStep += 1;
         });
       },
@@ -201,6 +209,42 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Text(
                                   'Qty: ${widget.order.quantity[i]}',
                                 ),
+                                const Text(
+                                  'Address: ',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  widget.order.address.placeInfo!,
+                                ),
+                                const Text(
+                                  'Building: ',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  widget.order.address.buidlingInfo!,
+                                ),
+                                const Text(
+                                  'Phone Number / PinCode: ',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  'phone: ${widget.order.address.phoneNumber!} \npincode:${widget.order.address.pincode}',
+                                ),
                               ],
                             ),
                           ),
@@ -210,12 +254,25 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Tracking',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Tracking',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (currentStep == 1) ...[
+                    GestureDetector(
+                      onTap: () => navigateToGoodMap(widget.order),
+                      child: const Text('Show on map',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ],
               ),
               Container(
                 decoration: BoxDecoration(
