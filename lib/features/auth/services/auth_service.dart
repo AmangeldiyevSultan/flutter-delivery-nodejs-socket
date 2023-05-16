@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gooddelivary/common/widgets/bottom_bar.dart';
 import 'package:gooddelivary/constants/error_handling.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
@@ -23,6 +24,7 @@ class AuthService {
     required String name,
   }) async {
     try {
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
       User user = User(
           id: '',
           email: email,
@@ -30,6 +32,7 @@ class AuthService {
           password: password,
           address: '',
           type: '',
+          FCMToken: fcmToken ?? '',
           token: '',
           cart: []);
       http.Response response = await http.post(Uri.parse('$uri/api/signup'),
@@ -56,10 +59,12 @@ class AuthService {
     required String password,
   }) async {
     try {
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
       http.Response response = await http.post(Uri.parse('$uri/api/signin'),
           body: jsonEncode({
             'email': email,
             'password': password,
+            'fcmToken': fcmToken ?? ''
           }),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'

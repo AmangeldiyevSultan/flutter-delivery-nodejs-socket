@@ -1,8 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gooddelivary/features/admin/services/admin_services.dart';
-import 'package:gooddelivary/providers/location_provider.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +47,6 @@ class AccountServices {
 
   void logOut(BuildContext context) async {
     try {
-      AdminServices adminServices = AdminServices();
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
 

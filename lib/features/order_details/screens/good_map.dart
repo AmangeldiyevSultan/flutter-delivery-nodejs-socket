@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gooddelivary/client/socket.repository.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
-import 'package:gooddelivary/features/admin/services/admin_services.dart';
 import 'package:gooddelivary/models/order.dart';
 import 'package:gooddelivary/providers/location_provider.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
@@ -37,29 +36,23 @@ class _GoodMapState extends State<GoodMap> {
 
     setCustomMarkerIcon();
     deliveryPosition = {
-      'latitude': widget.orderParams.deliveryPosition.latitude ?? 0.0,
-      'longitude': widget.orderParams.deliveryPosition.longitude ?? 0.0,
+      'latitude': widget.orderParams.deliveryPosition!.latitude ?? 0.0,
+      'longitude': widget.orderParams.deliveryPosition!.longitude ?? 0.0,
       'rotation': 0.0,
     };
-    print("CONNECTED TO GOOD MAP");
-    print(socketRepository.socketClient.connected);
     if (!socketRepository.socketClient.connected) {
       socketRepository.joinToRoom(widget.orderParams.id);
-      print("HAHAHAHAAHAHAHA LOOOOOH");
     }
 
     if (mounted) {
       socketRepository.changeListener((data) {
-        print(deliveryPosition);
-
         if (mounted) {
-          setState(() {
-            deliveryPosition = {
-              'latitude': data['latitude'],
-              'longitude': data['longitude'],
-              'rotation': data['rotation'],
-            };
-          });
+          deliveryPosition = {
+            'latitude': data['latitude'],
+            'longitude': data['longitude'],
+            'rotation': data['rotation'],
+          };
+          setState(() {});
         }
       });
     }
@@ -75,6 +68,8 @@ class _GoodMapState extends State<GoodMap> {
   @override
   Widget build(BuildContext context) {
     final locationProvider = context.watch<LocationProvider>();
+    final userProvider = context.watch<UserProvider>();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -88,7 +83,7 @@ class _GoodMapState extends State<GoodMap> {
           leading: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: const Icon(Icons.arrow_back)),
-          title: Text('Courier: ${widget.orderParams.deliveryPosition.name!}'),
+          title: Text('Courier: ${widget.orderParams.deliveryPosition!.name!}'),
         ),
       ),
       body: GoogleMap(
@@ -107,8 +102,11 @@ class _GoodMapState extends State<GoodMap> {
               markerId: const MarkerId('deliveryMan'),
               icon: currentIcon,
               rotation: deliveryPosition['rotation'],
-              position: LatLng(
-                  deliveryPosition['latitude'], deliveryPosition['longitude']))
+              position: userProvider.user.type == 'admin'
+                  ? LatLng(locationProvider.locationInfo['latitude'] ?? 0.0,
+                      locationProvider.locationInfo['longitude'] ?? 0.0)
+                  : LatLng(deliveryPosition['latitude'],
+                      deliveryPosition['longitude']))
         },
         onMapCreated: (controller) {
           _googleMapController = controller;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:gooddelivary/common/config/api_keys.dart';
 import 'package:gooddelivary/constants/error_handling.dart';
 import 'package:gooddelivary/constants/utils.dart';
 import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
@@ -28,8 +29,9 @@ class AdminServices {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      final cloudinary = CloudinaryPublic('ds9zqpfo7', 'rsjeh28c');
+      final cloudinary = CloudinaryPublic(kCloudinaryName, kUploadPreset);
       List<String> imageUrl = [];
+
       for (int i = 0; i < images.length; i++) {
         CloudinaryResponse res = await cloudinary.uploadFile(
             CloudinaryFile.fromFile(images[i].path,
@@ -182,7 +184,6 @@ class AdminServices {
         onSuccess: onSuccess,
       );
     } catch (e) {
-      print(e.toString());
       showSnackBar(context, e.toString());
     }
   }
@@ -222,9 +223,9 @@ class AdminServices {
     };
   }
 
-  void getCurrentLocation(String name, String orderId, context) =>
+  void getCurrentLocation(String name, Order order, context) =>
       Provider.of<LocationProvider>(context, listen: false)
-          .getCurrentLocation(name, orderId);
+          .getCurrentLocation(name, order);
 
   void stopListeningToLocationUpdates(context) =>
       Provider.of<LocationProvider>(context, listen: false)
@@ -239,7 +240,7 @@ class AdminServices {
         endPoint++;
         if (orders[i].status == 1) {
           endPoint = 0;
-          getCurrentLocation(userProvider.name, orders[i].id, context);
+          getCurrentLocation(userProvider.name, orders[i], context);
           break;
         }
       }

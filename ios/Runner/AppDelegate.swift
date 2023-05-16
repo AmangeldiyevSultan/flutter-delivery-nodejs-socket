@@ -7,7 +7,10 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GMSServices.provideAPIKey("AIzaSyDpdN3_bLSeCfIVKXi-iu3UdAuu01PUxH0")
+    let envFile = Bundle.main.path(forResource: ".env", ofType: nil)
+    DotEnv.withOptions(override: true, allowEmptyValues: true).load(filepath: envFile)
+    let apiKey = DotEnv.env["GMAP_API_KEY"]
+    GMSServices.provideAPIKey(apiKey)  
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

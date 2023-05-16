@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/common/config/api_keys.dart';
 import 'package:gooddelivary/models/reciever_location.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../constants/error_handling.dart';
 import '../../../constants/global_variables.dart';
@@ -53,7 +53,7 @@ class AddressServices {
       {required String addressName, required String sessionToken}) async {
     List<dynamic> placeList = [];
 
-    String kGoogleApiKey = GlobalVariables.kGoogleApi;
+    String kGoogleApiKey = kGoogleApi;
     String baseUrl =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =

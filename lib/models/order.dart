@@ -13,7 +13,7 @@ class Order {
   final String userId;
   final int orderedAt;
   final int status;
-  final DelivaryPosition deliveryPosition;
+  final DelivaryPosition? deliveryPosition;
   final double totalPrice;
   Order({
     required this.id,
@@ -27,19 +27,6 @@ class Order {
     required this.totalPrice,
   });
 
-  // Map<String, dynamic> toMap() {
-  //   return <String, dynamic>{
-  //     'id': id,
-  //     'products': products.map((x) => x.toMap()).toList(),
-  //     'quantity': quantity,
-  //     'address': address,
-  //     'userId': userId,
-  //     'orderedAt': orderedAt,
-  //     'status': status,
-  //     'totalPrice': totalPrice,
-  //   };
-  // }
-
   factory Order.fromMap(Map<String, dynamic> map) {
     return Order(
       id: map['_id'] ?? '',
@@ -51,8 +38,8 @@ class Order {
         ),
       ),
       address: RecieverLocation.fromMap(map['address'] as Map<String, dynamic>),
-      deliveryPosition: DelivaryPosition.fromMap(
-          map['delivaryPosition'] as Map<String, dynamic>),
+      deliveryPosition:
+          DelivaryPosition?.fromMap(map['delivaryPosition'] ?? {'': ''}),
       userId: map['userId'] ?? '',
       orderedAt: map['orderedAt']?.toInt() ?? 0,
       status: map['status']?.toInt() ?? 0,
@@ -73,7 +60,7 @@ class Order {
       'address': address.toMap(),
       'userId': userId,
       'orderedAt': orderedAt,
-      'delivaryPosition': deliveryPosition,
+      'delivaryPosition': deliveryPosition?.toMap(),
       'status': status,
       'totalPrice': totalPrice,
     };

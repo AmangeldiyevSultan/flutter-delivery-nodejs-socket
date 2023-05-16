@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoder2/geocoder2.dart';
+import 'package:gooddelivary/common/config/api_keys.dart';
 import 'package:gooddelivary/models/reciever_location.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
@@ -124,8 +125,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
   void getAddressCoordinates(Map<String, dynamic> place) async {
     GeoData addressCoordinatesGeoData = await Geocoder2.getDataFromAddress(
-        address: place['description'],
-        googleMapApiKey: GlobalVariables.kGoogleApi);
+        address: place['description'], googleMapApiKey: kGoogleApi);
     _locationInfo = {
       'placeInfo': place['description'],
       'langitude': addressCoordinatesGeoData.latitude,

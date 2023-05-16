@@ -1,9 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gooddelivary/client/socket.repository.dart';
-import 'package:gooddelivary/client/socket_client.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/constants/utils.dart';
 import 'package:gooddelivary/models/delivary_position.dart';
+import 'package:gooddelivary/models/order.dart';
 import 'package:location/location.dart';
 
 class LocationProvider extends ChangeNotifier {
@@ -14,6 +16,11 @@ class LocationProvider extends ChangeNotifier {
   DelivaryPosition delivaryPosition = DelivaryPosition();
   StreamSubscription<LocationData>? _locationSubscription;
   SocketRepository socketRepository = SocketRepository();
+  bool getCloseDelivery = false;
+  bool finishDelivery = false;
+  double distance = 100;
+  Timer? _locationSaveTimer;
+  Map<String, dynamic> locationInfo = {};
 
   Future<bool> _handleLocationPermission() async {
     _serviceEnabled = await location.serviceEnabled();
@@ -33,31 +40,46 @@ class LocationProvider extends ChangeNotifier {
     return true;
   }
 
-  void getCurrentLocation(String name, String orderId) async {
+  void getCurrentLocation(String name, Order order) async {
     bool hasPermission = await _handleLocationPermission();
     if (hasPermission) {
       location.enableBackgroundMode(enable: true);
-      print("GETCURRENTLOCATION");
-      print(socketRepository.socketClient.connected);
       if (!socketRepository.socketClient.connected) {
-        socketRepository.joinToRoom(orderId);
+        socketRepository.joinToRoom(order.id);
       }
 
       _locationSubscription =
           location.onLocationChanged.listen((LocationData currentLocation) {
         locationData = currentLocation;
-        print(currentLocation);
-        Map<String, dynamic> locationInfo = {
+        if (kDebugMode) {
+          print(currentLocation);
+        }
+        distance = calculateDistance(
+            currentLocation.latitude,
+            currentLocation.longitude,
+            order.address.langitude,
+            order.address.longitude);
+        getCloseDelivery = distance < 1 ? true : false;
+        finishDelivery = distance < 0.2 ? true : false;
+        locationInfo = {
           'latitude': currentLocation.latitude,
           'longitude': currentLocation.longitude,
           'name': name,
-          'room': orderId,
+          'room': order.id,
           'rotation':
               currentLocation.heading == 0 ? 0.1 : currentLocation.heading,
+          'getClose': getCloseDelivery,
+          'finish': finishDelivery,
+          'distance': distance,
+          'client_id': order.userId,
+          'uri': uri
         };
-
         socketRepository.deliveryPositionOnMap(locationInfo);
-        socketRepository.saveDelivaryLocation(locationInfo);
+        if (_locationSaveTimer == null || !_locationSaveTimer!.isActive) {
+          _locationSaveTimer = Timer(const Duration(seconds: 4),
+              () => socketRepository.saveDelivaryLocation(locationInfo));
+        }
+        notifyListeners();
       });
     }
   }
@@ -67,6 +89,7 @@ class LocationProvider extends ChangeNotifier {
       _locationSubscription!.cancel();
       _locationSubscription = null;
     }
+    _locationSaveTimer?.cancel();
   }
 
   @override

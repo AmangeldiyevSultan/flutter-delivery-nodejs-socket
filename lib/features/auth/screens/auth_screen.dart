@@ -157,7 +157,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           if (_signUpFormKey.currentState!.validate()) {
                             signUpUser();
                           }
-                        })
+                        }),
                   ]),
                 ),
               ),
@@ -205,7 +205,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         text: AppLocalizations.of(context)!.signin,
                         onTap: () {
                           signInUser();
-                        })
+                        }),
                   ]),
                 ),
               ),

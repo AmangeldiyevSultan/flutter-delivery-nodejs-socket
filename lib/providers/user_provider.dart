@@ -10,6 +10,7 @@ class UserProvider extends ChangeNotifier {
       password: '',
       address: '',
       type: '',
+      FCMToken: '',
       token: '',
       cart: []);
 

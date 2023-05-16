@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gooddelivary/features/order_details/screens/good_map.dart';
 import 'package:intl/intl.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_button.dart';
@@ -10,7 +9,6 @@ import '../../../models/order.dart';
 import '../../../providers/user_provider.dart';
 import '../../admin/services/admin_services.dart';
 import '../../search/screens/search_screen.dart';
-import 'package:provider/provider.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   static const String routeName = '/order-details';

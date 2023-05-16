@@ -31,6 +31,9 @@ const userSchema = mongoose.Schema({
         type: String,
         default: 'user',
     }, 
+    FCMToken:{
+        type: String, 
+    },
     cart: [
         {
             product: productSchema,

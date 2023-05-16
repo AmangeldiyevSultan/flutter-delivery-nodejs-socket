@@ -9,7 +9,7 @@ const authRouter = express.Router();
 /// SIGN UP
 authRouter.post('/api/signup', async (req, res) => {   
    try{
-    const {name, email, password} =  req.body; 
+    const {name, email, password, FCMToken} =  req.body; 
     const existingUser = await User.findOne({email});
     if(existingUser){
         return res.status(400).json({msg: 'User with same email already exist!'});
@@ -17,8 +17,8 @@ authRouter.post('/api/signup', async (req, res) => {
 
     const hashedPassword = await bcryptjs.hash(password, 8);
  
-    let user = new User({
-        email, password: hashedPassword, name 
+    let user = new User({  
+        email, password: hashedPassword, name, FCMToken
     })
  
     user = await user.save();
@@ -31,7 +31,7 @@ authRouter.post('/api/signup', async (req, res) => {
 ///SIGN IN 
 authRouter.post('/api/signin', async (req, res)=>{
     try{
-        const {email, password} = req.body;
+        const {email, password, fcmToken} = req.body;
 
         const user = await User.findOne({email});
         if(!user){
@@ -45,6 +45,9 @@ authRouter.post('/api/signin', async (req, res)=>{
         const token = jwt.sign({
             id: user._id 
         }, "passwordKey");
+        
+        user.FCMToken = fcmToken; 
+        await user.save();
 
         res.json({token, ...user._doc});
 

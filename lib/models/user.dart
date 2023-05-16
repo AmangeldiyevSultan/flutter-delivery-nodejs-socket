@@ -8,6 +8,8 @@ class User {
   final String password;
   final String address;
   final String type;
+  // ignore: non_constant_identifier_names
+  final String FCMToken;
   final String token;
   final List<dynamic> cart;
 
@@ -18,6 +20,8 @@ class User {
     required this.password,
     required this.address,
     required this.type,
+    // ignore: non_constant_identifier_names
+    required this.FCMToken,
     required this.token,
     required this.cart,
   });
@@ -30,6 +34,7 @@ class User {
       'password': password,
       'address': address,
       'type': type,
+      'FCMToken': FCMToken,
       'token': token,
       'cart': cart,
     };
@@ -43,6 +48,7 @@ class User {
       password: map["password"] ?? '',
       address: map["address"] ?? '',
       type: map["type"] ?? '',
+      FCMToken: map["FCMToken"] ?? '',
       token: map["token"] ?? '',
       cart: List<Map<String, dynamic>>.from(
           map["cart"]?.map((x) => Map<String, dynamic>.from(x))),
@@ -60,6 +66,8 @@ class User {
     String? password,
     String? address,
     String? type,
+    // ignore: non_constant_identifier_names
+    String? FCMToken,
     String? token,
     List<dynamic>? cart,
   }) {
@@ -70,6 +78,7 @@ class User {
       password: password ?? this.password,
       address: address ?? this.address,
       type: type ?? this.type,
+      FCMToken: FCMToken ?? this.FCMToken,
       token: token ?? this.token,
       cart: cart ?? this.cart,
     );

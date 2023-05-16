@@ -19,15 +19,6 @@ class TopButtons extends StatelessWidget {
               onTap: () {},
             ),
             AccountButton(
-              text: AppLocalizations.of(context)!.turnSeller,
-              onTap: () {},
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            AccountButton(
                 text: AppLocalizations.of(context)!.logout,
                 onTap: () {
                   AccountServices().logOut(context);
@@ -36,12 +27,9 @@ class TopButtons extends StatelessWidget {
                 }
                 // AccountServices().logOut(context),
                 ),
-            AccountButton(
-              text: AppLocalizations.of(context)!.yourWishList,
-              onTap: () {},
-            ),
           ],
         ),
+        const SizedBox(height: 10),
       ],
     );
   }

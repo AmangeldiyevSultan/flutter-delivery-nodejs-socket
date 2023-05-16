@@ -16,6 +16,14 @@ const delivaryPositionSchema = mongoose.Schema({
         require: true,
 
     },
+    getClose: {
+        type: Boolean,
+        default: false,
+    },
+    finish: {
+        type: Boolean,
+        default: false,
+    } 
   
 });
  
