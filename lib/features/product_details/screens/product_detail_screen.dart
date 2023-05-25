@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:gooddelivary/constants/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_button.dart';
@@ -34,6 +35,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     super.initState();
     double totalRating = 0;
+
     for (int i = 0; i < widget.product.rating!.length; i++) {
       totalRating += widget.product.rating![i].rating;
       if (widget.product.rating![i].userId ==
@@ -52,10 +54,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void addToCart() {
-    productDetailsServices.addToCart(
-      context: context,
-      product: widget.product,
-    );
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.user.token.isEmpty) {
+      showSnackBar(context, 'Please sign in!');
+    } else {
+      productDetailsServices.addToCart(
+        context: context,
+        product: widget.product,
+      );
+    }
   }
 
   @override
@@ -258,11 +265,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 color: GlobalVariables.secondaryColor,
               ),
               onRatingUpdate: (rating) {
-                productDetailsServices.rateProduct(
-                  context: context,
-                  product: widget.product,
-                  rating: rating,
-                );
+                final userProvider =
+                    Provider.of<UserProvider>(context, listen: false);
+                if (userProvider.user.token.isEmpty) {
+                  showSnackBar(context, 'Please sign in!');
+                } else {
+                  productDetailsServices.rateProduct(
+                    context: context,
+                    product: widget.product,
+                    rating: rating,
+                  );
+                }
               },
             )
           ],

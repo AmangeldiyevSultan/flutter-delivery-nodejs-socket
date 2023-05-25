@@ -39,7 +39,7 @@ class Order {
       ),
       address: RecieverLocation.fromMap(map['address'] as Map<String, dynamic>),
       deliveryPosition:
-          DelivaryPosition?.fromMap(map['delivaryPosition'] ?? {'': ''}),
+          DelivaryPosition.fromMap(map['delivaryPosition'] ?? {'': ''}),
       userId: map['userId'] ?? '',
       orderedAt: map['orderedAt']?.toInt() ?? 0,
       status: map['status']?.toInt() ?? 0,

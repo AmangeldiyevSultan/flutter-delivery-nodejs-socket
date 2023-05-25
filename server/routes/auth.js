@@ -28,6 +28,41 @@ authRouter.post('/api/signup', async (req, res) => {
 } 
 });
 
+/// GOOGLE SIGN UP
+authRouter.post('/api/googlesignup', async (req, res) => {   
+    try{ 
+     const {name, email, password, FCMToken} =  req.body; 
+     const existingUser = await User.findOne({email});
+     if(existingUser){
+        const isMatch = await bcryptjs.compare(password, existingUser.password);
+        if(!isMatch){
+            return res.status(400).json({msg: 'Permission denied!'});
+        } 
+        const token = jwt.sign({
+            id: existingUser._id  
+        }, "passwordKey");
+          
+        existingUser.FCMToken = FCMToken; 
+        await existingUser.save();   
+        return res.status(200).json({token, ...existingUser._doc});
+     }  else {
+        const hashedPassword = await bcryptjs.hash(password, 8);
+        let user = new User({  
+            email, password: hashedPassword, name, FCMToken
+        })  
+        await user.save();   
+         
+        const token = jwt.sign({
+            id: user._id 
+        }, "passwordKey"); 
+        await user.save();
+        return res.json({token, ...user._doc});
+        } 
+ } catch(e){  
+     res.status(500).json({error: e.message}); 
+ } 
+ });
+
 ///SIGN IN 
 authRouter.post('/api/signin', async (req, res)=>{
     try{
@@ -79,5 +114,30 @@ authRouter.get('/', auth, async (req, res)=>{
     const user = await User.findById(req.user);
     res.json({...user._doc, token: req.token});
 });
+
+///CHANGE_USER_INFO 
+authRouter.post('/api/changeUserData', auth, async (req, res)=>{
+    try{ 
+        const user = await User.findById(req.user);
+        if(req.body['type'] == 'email'){
+
+            user.email = req.body['title'];
+        } else if (req.body['type'] == 'name'){
+
+            user.name = req.body['title'];
+        } else if (req.body['type'] == 'address'){
+
+            user.address = req.body['title'];
+        } 
+ 
+       await user.save(); 
+
+        res.status(200).json(user);  
+
+ 
+    } catch(e){  
+        res.status(500).json({ error: e.message});
+    }
+}); 
  
 module.exports = authRouter;

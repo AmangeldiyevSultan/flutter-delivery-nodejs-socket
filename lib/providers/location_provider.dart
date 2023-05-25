@@ -61,6 +61,7 @@ class LocationProvider extends ChangeNotifier {
             order.address.longitude);
         getCloseDelivery = distance < 1 ? true : false;
         finishDelivery = distance < 0.2 ? true : false;
+
         locationInfo = {
           'latitude': currentLocation.latitude,
           'longitude': currentLocation.longitude,
@@ -88,8 +89,9 @@ class LocationProvider extends ChangeNotifier {
     if (_locationSubscription != null) {
       _locationSubscription!.cancel();
       _locationSubscription = null;
+      _locationSaveTimer?.cancel();
     }
-    _locationSaveTimer?.cancel();
+    notifyListeners();
   }
 
   @override

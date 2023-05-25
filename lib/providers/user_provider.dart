@@ -16,6 +16,11 @@ class UserProvider extends ChangeNotifier {
 
   User get user => _user;
 
+  void changedUser(User user) {
+    _user = user;
+    notifyListeners();
+  }
+
   void setUser(String user) {
     _user = User.fromJson(user);
     notifyListeners();
@@ -23,10 +28,6 @@ class UserProvider extends ChangeNotifier {
 
   void setUserFromModel(User user) {
     _user = user;
-    notifyListeners();
-  }
-
-  void logOut() {
     notifyListeners();
   }
 }

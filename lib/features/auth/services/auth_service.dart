@@ -11,12 +11,14 @@ import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
 import 'package:gooddelivary/models/user.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   // sign up user
+
   void signUpUser({
     required BuildContext context,
     required String email,
@@ -46,6 +48,51 @@ class AuthService {
           onSuccess: () {
             showSnackBar(
                 context, 'Account created! Login with same credentials');
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  //google sign in
+  void googleSignInUser({
+    required BuildContext context,
+    required GoogleSignInAccount googleUserAccount,
+  }) async {
+    try {
+      final userAuth = await googleUserAccount.authentication;
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      User user = User(
+          id: '',
+          email: googleUserAccount.email,
+          name: googleUserAccount.displayName ?? '',
+          password: userAuth.accessToken!,
+          address: '',
+          type: '',
+          FCMToken: fcmToken ?? '',
+          token: '',
+          cart: []);
+      http.Response response = await http.post(
+          Uri.parse('$uri/api/googlesignup'),
+          body: user.toJson(),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(response.body);
+            await prefs.setString(
+                "x-auth-token", jsonDecode(response.body)['token']);
+            jsonDecode(response.body)['type'] == 'user'
+                ? Navigator.pushNamedAndRemoveUntil(
+                    context, BottomBar.routeName, (route) => false)
+                : Navigator.pushNamedAndRemoveUntil(
+                    context, AdminScreen.routeName, (route) => false);
+            showSnackBar(context, 'Account sign in!');
           });
     } catch (e) {
       showSnackBar(context, e.toString());
@@ -122,7 +169,7 @@ class AuthService {
         userProvider.setUser(userRes.body);
       }
     } catch (e) {
-      // showSnackBar(context, e.toString());
+      showSnackBar(context, e.toString());
     }
   }
 }

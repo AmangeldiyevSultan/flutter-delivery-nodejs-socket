@@ -7,10 +7,10 @@ const productRouter = express.Router();
 // req.query.category
 
 // /api/product:category=Essential
-// req.params.category
+// req.params.category 
   
 
-productRouter.get("/api/products/", auth, async (req, res) => {
+productRouter.get("/api/products/", async (req, res) => {
     try{
         const product = await Product.find({category: req.query.category});
         res.json(product);   
@@ -24,7 +24,7 @@ productRouter.get("/api/products/", auth, async (req, res) => {
 // /api/product/search/:hello/:greate
 //                             req.params.greate
 
-productRouter.get("/api/products/search/:name", auth, async (req, res) => {
+productRouter.get("/api/products/search/:name", async (req, res) => {
     try{ 
 
         const productSearch = await Product.find({
@@ -67,7 +67,7 @@ productRouter.post('/api/rate-product', auth, async (req, res)=> {
 });
 
 //deal of the day
-productRouter.get('/api/deal-of-the-day', auth, async(req, res) => {
+productRouter.get('/api/deal-of-the-day', async(req, res) => {
     try {
         let products = await Product.find({});
         products = products.sort((a, b) => {

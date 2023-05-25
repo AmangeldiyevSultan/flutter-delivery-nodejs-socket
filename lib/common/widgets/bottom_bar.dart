@@ -2,6 +2,7 @@ import 'package:gooddelivary/constants/global_variables.dart';
 import 'package:gooddelivary/features/account/screens/account_screen.dart';
 import 'package:gooddelivary/features/cart/screens/cart_screen.dart';
 import 'package:gooddelivary/features/home/screens/home_screen.dart';
+import 'package:gooddelivary/features/profile/screen/profile_screen.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class _BottomBarState extends State<BottomBar> {
     const HomeScreen(),
     const AccountScreen(),
     const CartScreen(),
+    const ProfileScreen()
   ];
 
   void updatePage(int page) {
@@ -74,7 +76,7 @@ class _BottomBarState extends State<BottomBar> {
                           width: bottomBarBorderWidth),
                     ),
                   ),
-                  child: const Icon(Icons.person_outline_outlined))),
+                  child: const Icon(Icons.shopping_bag_outlined))),
           //cart
           BottomNavigationBarItem(
               label: '',
@@ -94,6 +96,21 @@ class _BottomBarState extends State<BottomBar> {
                       badgeContent: Text(userCartLength.toString()),
                       badgeColor: Colors.white,
                       child: const Icon(Icons.shopping_cart_outlined)))),
+          //user profile
+          BottomNavigationBarItem(
+              label: '',
+              icon: Container(
+                  width: bottomBarWidth,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                          color: _page == 3
+                              ? GlobalVariables.selectedNavBarColor
+                              : GlobalVariables.backgroundColor,
+                          width: bottomBarBorderWidth),
+                    ),
+                  ),
+                  child: const Icon(Icons.account_box_outlined))),
         ],
       ),
     );

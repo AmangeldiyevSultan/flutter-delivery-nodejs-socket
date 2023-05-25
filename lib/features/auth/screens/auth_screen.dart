@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:gooddelivary/common/widgets/bottom_bar.dart';
 import 'package:gooddelivary/common/widgets/custom_button.dart';
 import 'package:gooddelivary/common/widgets/custom_textfield.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/constants/utils.dart';
 import 'package:gooddelivary/features/auth/services/auth_service.dart';
 import 'package:gooddelivary/l10n/l10n.dart';
 import 'package:gooddelivary/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 enum Auth { signin, signup }
@@ -54,6 +57,11 @@ class _AuthScreenState extends State<AuthScreen> {
       email: _emailController.text,
       password: _passwordController.text,
     );
+  }
+
+  void googleSignInUser(GoogleSignInAccount googleUserAccount) {
+    authService.googleSignInUser(
+        context: context, googleUserAccount: googleUserAccount);
   }
 
   @override
@@ -123,44 +131,85 @@ class _AuthScreenState extends State<AuthScreen> {
                 },
               ),
             ),
-            if (_auth == Auth.signup)
+            if (_auth == Auth.signup) ...[
               Container(
                 padding: EdgeInsets.all(8),
                 color: GlobalVariables.backgroundColor,
-                child: Form(
-                  key: _signUpFormKey,
-                  child: Column(children: [
-                    CustomTextField(
-                      controller: _nameController,
-                      hintText: AppLocalizations.of(context)!.name,
+                child: Column(
+                  children: [
+                    Form(
+                      key: _signUpFormKey,
+                      child: Column(children: [
+                        CustomTextField(
+                          controller: _nameController,
+                          hintText: AppLocalizations.of(context)!.name,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                          controller: _emailController,
+                          hintText: "Email",
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                          controller: _passwordController,
+                          hintText: AppLocalizations.of(context)!.password,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomButton(
+                            text: AppLocalizations.of(context)!.signup,
+                            onTap: () {
+                              if (_signUpFormKey.currentState!.validate()) {
+                                signUpUser();
+                              }
+                            }),
+                      ]),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    CustomTextField(
-                      controller: _emailController,
-                      hintText: "Email",
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextField(
-                      controller: _passwordController,
-                      hintText: AppLocalizations.of(context)!.password,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    CustomButton(
-                        text: AppLocalizations.of(context)!.signup,
-                        onTap: () {
-                          if (_signUpFormKey.currentState!.validate()) {
-                            signUpUser();
-                          }
-                        }),
-                  ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                            color: GlobalVariables.selectedNavBarColor,
+                            alignment: Alignment.bottomRight,
+                            child: TextButton(
+                                child: Text('Google Sign In',
+                                    style: TextStyle(color: Colors.white)),
+                                onPressed: () async {
+                                  GoogleSignIn googleSignIn = GoogleSignIn();
+                                  final user = await googleSignIn.signIn();
+                                  if (user != null) {
+                                    googleSignInUser(user);
+                                  } else {
+                                    // ignore: use_build_context_synchronously
+                                    showSnackBar(context, 'Unexpected error!');
+                                  }
+                                })),
+                        Container(
+                            color: GlobalVariables.selectedNavBarColor,
+                            alignment: Alignment.bottomRight,
+                            child: TextButton(
+                                child: Text(
+                                  'Guest Mode',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, BottomBar.routeName);
+                                })),
+                      ],
+                    )
+                  ],
                 ),
               ),
+            ],
             ListTile(
               tileColor: _auth == Auth.signin
                   ? GlobalVariables.backgroundColor

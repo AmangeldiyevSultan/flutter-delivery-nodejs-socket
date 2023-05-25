@@ -49,8 +49,19 @@ class AccountServices {
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-
+      // ignore: use_build_context_synchronously
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
       await sharedPreferences.setString('x-auth-token', '').then((value) {
+        userProvider.setUserFromModel(userProvider.user.copyWith(
+            id: '',
+            token: '',
+            name: '',
+            email: '',
+            type: '',
+            cart: [],
+            password: '',
+            address: '',
+            FCMToken: ''));
         Navigator.pushNamedAndRemoveUntil(
           context,
           AuthScreen.routeName,

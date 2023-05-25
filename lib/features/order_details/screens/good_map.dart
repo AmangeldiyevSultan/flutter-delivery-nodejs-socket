@@ -35,11 +35,13 @@ class _GoodMapState extends State<GoodMap> {
     super.initState();
 
     setCustomMarkerIcon();
+
     deliveryPosition = {
       'latitude': widget.orderParams.deliveryPosition!.latitude ?? 0.0,
       'longitude': widget.orderParams.deliveryPosition!.longitude ?? 0.0,
       'rotation': 0.0,
     };
+
     if (!socketRepository.socketClient.connected) {
       socketRepository.joinToRoom(widget.orderParams.id);
     }
@@ -83,7 +85,8 @@ class _GoodMapState extends State<GoodMap> {
           leading: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: const Icon(Icons.arrow_back)),
-          title: Text('Courier: ${widget.orderParams.deliveryPosition!.name!}'),
+          title: Text(
+              'Courier: ${widget.orderParams.deliveryPosition?.name ?? 'Loading..'}'),
         ),
       ),
       body: GoogleMap(
@@ -98,15 +101,16 @@ class _GoodMapState extends State<GoodMap> {
               markerId: const MarkerId('reciever'),
               position: LatLng(widget.orderParams.address.langitude!,
                   widget.orderParams.address.longitude!)),
-          Marker(
-              markerId: const MarkerId('deliveryMan'),
-              icon: currentIcon,
-              rotation: deliveryPosition['rotation'],
-              position: userProvider.user.type == 'admin'
-                  ? LatLng(locationProvider.locationInfo['latitude'] ?? 0.0,
-                      locationProvider.locationInfo['longitude'] ?? 0.0)
-                  : LatLng(deliveryPosition['latitude'],
-                      deliveryPosition['longitude']))
+          if (widget.orderParams.deliveryPosition?.name != null)
+            Marker(
+                markerId: const MarkerId('deliveryMan'),
+                icon: currentIcon,
+                rotation: deliveryPosition['rotation'],
+                position: userProvider.user.type == 'admin'
+                    ? LatLng(locationProvider.locationInfo['latitude'] ?? 0.0,
+                        locationProvider.locationInfo['longitude'] ?? 0.0)
+                    : LatLng(deliveryPosition['latitude'],
+                        deliveryPosition['longitude']))
         },
         onMapCreated: (controller) {
           _googleMapController = controller;

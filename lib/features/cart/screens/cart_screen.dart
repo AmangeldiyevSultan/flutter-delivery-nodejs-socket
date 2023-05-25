@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/constants/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_button.dart';
@@ -23,11 +24,16 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void navigateToAddress(int sum) {
-    Navigator.pushNamed(
-      context,
-      AddressScreen.routeName,
-      arguments: sum.toString(),
-    );
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.user.token.isEmpty) {
+      showSnackBar(context, 'Please sign in!');
+    } else {
+      Navigator.pushNamed(
+        context,
+        AddressScreen.routeName,
+        arguments: sum.toString(),
+      );
+    }
   }
 
   @override

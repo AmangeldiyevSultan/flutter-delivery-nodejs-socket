@@ -4,6 +4,7 @@ import 'package:gooddelivary/features/admin/screens/order_screen.dart';
 import 'package:gooddelivary/features/admin/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gooddelivary/features/admin/services/admin_services.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
@@ -36,9 +37,12 @@ class _AdminScreenState extends State<AdminScreen> {
     });
   }
 
+  final AdminServices _adminServices = AdminServices();
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LocaleProvider>(context, listen: false);
+
     final locale = provider.locale;
     return Scaffold(
       appBar: PreferredSize(
@@ -53,6 +57,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 children: [
                   InkWell(
                     onTap: () {
+                      _adminServices.stopListeningToLocationUpdates(context);
                       AccountServices().logOut(context);
                       Navigator.pushNamedAndRemoveUntil(
                           context, AuthScreen.routeName, (route) => false);
