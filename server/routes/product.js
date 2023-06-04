@@ -3,13 +3,6 @@ const auth = require('../middlewares/auth');
 const {Product} = require('../models/product');  
 const productRouter = express.Router();
 
-// /api/product?category=Essential
-// req.query.category
-
-// /api/product:category=Essential
-// req.params.category 
-  
-
 productRouter.get("/api/products/", async (req, res) => {
     try{
         const product = await Product.find({category: req.query.category});
@@ -19,20 +12,12 @@ productRouter.get("/api/products/", async (req, res) => {
     }
 });
 
-// /api/product/search/i
-
-// /api/product/search/:hello/:greate
-//                             req.params.greate
-
 productRouter.get("/api/products/search/:name", async (req, res) => {
     try{ 
 
         const productSearch = await Product.find({
             name: {$regex: req.params.name, $options: "i"},
         }); 
-        // Ex  
-        // iphone
-        // ip (it also find with a help regex and options)
         res.json(productSearch); 
     } catch (e){
         res.status(500).json({error: e.message});
@@ -91,6 +76,6 @@ productRouter.get('/api/deal-of-the-day', async(req, res) => {
     } catch (e){
         res.status(500).json({error: e.message});
     }
-});
+}); 
 
 module.exports = productRouter;

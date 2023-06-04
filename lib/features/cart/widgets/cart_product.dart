@@ -1,10 +1,13 @@
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/features/cart/services/cart_services.dart';
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/product.dart';
 import '../../../providers/user_provider.dart';
 import '../../product_details/services/product_detail_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartProduct extends StatefulWidget {
   final int index;
@@ -84,14 +87,15 @@ class _CartProductState extends State<CartProduct> {
                   Container(
                     width: 235,
                     padding: const EdgeInsets.only(left: 10),
-                    child: const Text('Eligible for FREE Shipping'),
+                    child: Text(
+                        AppLocalizations.of(context)!.eligibleForFreeShipping),
                   ),
                   Container(
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
-                    child: const Text(
-                      'In Stock',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.inStock,
+                      style: const TextStyle(
                         color: Colors.teal,
                       ),
                       maxLines: 2,
@@ -133,7 +137,10 @@ class _CartProductState extends State<CartProduct> {
                     DecoratedBox(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black12, width: 1.5),
-                        color: Colors.white,
+                        color: context.watch<ThemeProvider>().themeType ==
+                                ThemeType.dark
+                            ? Colors.black26
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(0),
                       ),
                       child: Container(

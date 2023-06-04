@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -35,7 +36,7 @@ class CustomTextField extends StatelessWidget {
           ))),
       validator: (val) {
         if (val == null || val.isEmpty) {
-          return 'Enter your $hintText';
+          return '${AppLocalizations.of(context)!.enterYour} $hintText';
         }
         return null;
       },

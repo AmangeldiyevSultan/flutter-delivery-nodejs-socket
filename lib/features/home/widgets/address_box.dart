@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/constants/enums.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -10,18 +13,15 @@ class AddressBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-
+    final themeProvider = context.watch<ThemeProvider>();
     return Container(
       height: 40,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 114, 226, 221),
-            Color.fromARGB(255, 162, 236, 233),
-          ],
-          stops: [0.5, 1.0],
-        ),
-      ),
+      decoration: BoxDecoration(
+          gradient: themeProvider.themeType == ThemeType.dark
+              ? GlobalVariables.darkAppBarGradient
+              : themeProvider.themeType == ThemeType.pink
+                  ? GlobalVariables.pinkAppBarGradient
+                  : GlobalVariables.appBarGradient),
       padding: const EdgeInsets.only(left: 10),
       child: Row(
         children: [

@@ -9,16 +9,16 @@ const authRouter = express.Router();
 /// SIGN UP
 authRouter.post('/api/signup', async (req, res) => {   
    try{
-    const {name, email, password, FCMToken} =  req.body; 
+    const {name, email, password, FCMToken, type} =  req.body; 
     const existingUser = await User.findOne({email});
-    if(existingUser){
+    if(existingUser){ 
         return res.status(400).json({msg: 'User with same email already exist!'});
     } 
-
+  
     const hashedPassword = await bcryptjs.hash(password, 8);
- 
+   
     let user = new User({  
-        email, password: hashedPassword, name, FCMToken
+        email, password: hashedPassword, name, FCMToken, type
     })
  
     user = await user.save();
@@ -28,16 +28,79 @@ authRouter.post('/api/signup', async (req, res) => {
 } 
 });
 
+/// GITHUB SIGN UP 
+authRouter.post('/api/githubsignup', async (req, res) => {   
+    try{  
+     const {name, email, FCMToken} =  req.body; 
+     const existingUser = await User.findOne({email});
+     if(existingUser){
+        var payload = {email}; 
+        const token = jwt.sign({
+            id: existingUser._id   
+        }, "passwordKey");
+          
+        existingUser.FCMToken = FCMToken; 
+        await existingUser.save();   
+        return res.status(200).json({token, ...existingUser._doc});
+     }  else { 
+        var payload = {email};
+
+        let user = new User({ 
+            email, password: 'github_sign', name, FCMToken, 
+        })  
+        await user.save();    
+         
+        const token = jwt.sign({
+            id: user._id 
+        }, "passwordKey"); 
+        await user.save();
+        return res.json({token, ...user._doc});
+        } 
+ } catch(e){  
+     res.status(500).json({error: e.message}); 
+ } 
+ });
+
+/// TWITTER SIGN UP
+authRouter.post('/api/twittersignup', async (req, res) => {   
+    try{  
+     const {name, email, FCMToken} =  req.body; 
+     const existingUser = await User.findOne({email});
+     if(existingUser){
+        var payload = {email}; 
+        const token = jwt.sign({
+            id: existingUser._id  
+        }, "passwordKey");
+          
+        existingUser.FCMToken = FCMToken; 
+        await existingUser.save();   
+        return res.status(200).json({token, ...existingUser._doc});
+     }  else { 
+        var payload = {email};
+
+        let user = new User({ 
+            email, password: 'twitter_sign', name, FCMToken, 
+        })  
+        await user.save();    
+         
+        const token = jwt.sign({
+            id: user._id 
+        }, "passwordKey"); 
+        await user.save();
+        return res.json({token, ...user._doc});
+        } 
+ } catch(e){  
+     res.status(500).json({error: e.message}); 
+ } 
+ });
+
 /// GOOGLE SIGN UP
 authRouter.post('/api/googlesignup', async (req, res) => {   
     try{ 
      const {name, email, password, FCMToken} =  req.body; 
      const existingUser = await User.findOne({email});
      if(existingUser){
-        const isMatch = await bcryptjs.compare(password, existingUser.password);
-        if(!isMatch){
-            return res.status(400).json({msg: 'Permission denied!'});
-        } 
+        var payload = {name, email};  
         const token = jwt.sign({
             id: existingUser._id  
         }, "passwordKey");
@@ -46,9 +109,10 @@ authRouter.post('/api/googlesignup', async (req, res) => {
         await existingUser.save();   
         return res.status(200).json({token, ...existingUser._doc});
      }  else {
-        const hashedPassword = await bcryptjs.hash(password, 8);
-        let user = new User({  
-            email, password: hashedPassword, name, FCMToken
+        var payload = {name, email};
+
+        let user = new User({
+            email, password: 'google_sign', name, FCMToken, 
         })  
         await user.save();   
          
@@ -92,7 +156,6 @@ authRouter.post('/api/signin', async (req, res)=>{
 });
 
 /// TOKEN-IS-VALID 
-
 authRouter.post("/tokenIsValid", async (req, res)=>{
     try{
     const token = req.header('x-auth-token');
@@ -139,5 +202,5 @@ authRouter.post('/api/changeUserData', auth, async (req, res)=>{
         res.status(500).json({ error: e.message});
     }
 }); 
- 
+  
 module.exports = authRouter;

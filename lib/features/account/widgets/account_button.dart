@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/constants/enums.dart';
+import 'package:gooddelivary/constants/global_variables.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class AccountButton extends StatelessWidget {
   final String text;
@@ -11,6 +15,7 @@ class AccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -18,7 +23,9 @@ class AccountButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white, width: 0.0),
           borderRadius: BorderRadius.circular(50),
-          color: Colors.white,
+          color: themeProvider.themeType == ThemeType.dark
+              ? GlobalVariables.darkGreyBackgroundCOlor
+              : Colors.white,
         ),
         child: OutlinedButton(
           style: ElevatedButton.styleFrom(
@@ -30,8 +37,10 @@ class AccountButton extends StatelessWidget {
           onPressed: onTap,
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: themeProvider.themeType == ThemeType.dark
+                  ? Colors.white
+                  : Colors.black,
               fontWeight: FontWeight.normal,
             ),
           ),

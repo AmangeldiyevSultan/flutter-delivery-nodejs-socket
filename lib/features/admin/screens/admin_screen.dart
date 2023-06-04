@@ -1,16 +1,16 @@
-import 'package:gooddelivary/features/account/services/account_services.dart';
+import 'package:gooddelivary/common/widgets/app_bar.dart';
+import 'package:gooddelivary/common/widgets/locale_widget.dart';
+import 'package:gooddelivary/common/widgets/theme_widget.dart';
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/features/admin/screens/analytics_screen.dart';
 import 'package:gooddelivary/features/admin/screens/order_screen.dart';
 import 'package:gooddelivary/features/admin/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:gooddelivary/features/admin/services/admin_services.dart';
+import 'package:gooddelivary/features/profile/screen/profile_screen.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
-import '../../../l10n/l10n.dart';
-import '../../../providers/locale_provider.dart';
-import '../../auth/screens/auth_screen.dart';
 
 class AdminScreen extends StatefulWidget {
   static const String routeName = '/admin-screen';
@@ -29,131 +29,74 @@ class _AdminScreenState extends State<AdminScreen> {
     const PostsScreen(),
     const AnalyticsScreen(),
     const OrdersScreen(),
+    const ProfileScreen()
   ];
 
-  void updatePage(int page) {
+  void _updatePage(int page) {
     setState(() {
       _page = page;
     });
   }
 
-  final AdminServices _adminServices = AdminServices();
-
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LocaleProvider>(context, listen: false);
-
-    final locale = provider.locale;
+    final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: AppBar(
-            flexibleSpace: Container(
-              decoration:
-                  const BoxDecoration(gradient: GlobalVariables.appBarGradient),
-            ),
-            title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      _adminServices.stopListeningToLocationUpdates(context);
-                      AccountServices().logOut(context);
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, AuthScreen.routeName, (route) => false);
-                    },
-                    child: Center(
-                      child: Text(AppLocalizations.of(context)!.logout),
-                    ),
-                  ),
-                  const Text('GoodDelivary'),
-                  Text(
-                    AppLocalizations.of(context)!.admin,
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                    value: locale,
-                    icon: Container(width: 12),
-                    items: L10n.all.map((locale) {
-                      final flag = L10n.getFlag(locale.languageCode);
-                      return DropdownMenuItem(
-                        value: locale,
-                        onTap: () {
-                          final provider = Provider.of<LocaleProvider>(context,
-                              listen: false);
-                          provider.setLocale(locale);
-                        },
-                        child: Center(
-                          child: Text(
-                            flag,
-                            style: const TextStyle(fontSize: 28),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                  )),
-                ]),
-          )),
+          preferredSize: const Size.fromHeight(50), child: AdminAppBar()),
       body: pages[_page],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _page,
-        selectedItemColor: GlobalVariables.selectedNavBarColor,
-        unselectedItemColor: GlobalVariables.unselectedNavBarColor,
-        backgroundColor: GlobalVariables.backgroundColor,
-        iconSize: 28,
-        onTap: updatePage,
-        items: [
-          //Home page
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 0
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: const Icon(Icons.home_outlined))),
-          //analytics
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 1
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: const Icon(Icons.analytics_outlined))),
-          //inbox
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 2
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: const Icon(Icons.all_inbox_outlined))),
-          //cart
-        ],
-      ),
+      bottomNavigationBar: _bottomNavigationBar(themeProvider),
     );
+  }
+
+  BottomNavigationBar _bottomNavigationBar(ThemeProvider themeProvider) {
+    return BottomNavigationBar(
+      currentIndex: _page,
+      selectedItemColor: themeProvider.themeType == ThemeType.dark
+          ? GlobalVariables().darkSelectedNavBarColor
+          : themeProvider.themeType == ThemeType.pink
+              ? GlobalVariables.pinkGreyBackgroundCOlor
+              : GlobalVariables.lightSelectedNavBarColor,
+      unselectedItemColor: themeProvider.themeType == ThemeType.dark
+          ? Colors.white38
+          : themeProvider.themeType == ThemeType.pink
+              ? GlobalVariables.pinkBackgroundColor
+              : GlobalVariables.lightUnselectedNavBarColor,
+      backgroundColor: GlobalVariables.lightBackgroundColor,
+      iconSize: 28,
+      onTap: _updatePage,
+      items: [
+        //Home page
+        _bottomNavigationBarItem(themeProvider, 0, Icons.home_outlined),
+        //analytics
+        _bottomNavigationBarItem(themeProvider, 1, Icons.analytics_outlined),
+        //inbox
+        _bottomNavigationBarItem(themeProvider, 2, Icons.all_inbox_outlined),
+        //user profile
+        _bottomNavigationBarItem(themeProvider, 3, Icons.account_box_outlined),
+      ],
+    );
+  }
+
+  BottomNavigationBarItem _bottomNavigationBarItem(
+      ThemeProvider themeProvider, int page, IconData iconData) {
+    return BottomNavigationBarItem(
+        label: '',
+        icon: Container(
+            width: bottomBarWidth,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                    color: _page == page
+                        ? themeProvider.themeType == ThemeType.dark
+                            ? GlobalVariables().darkSelectedNavBarColor
+                            : themeProvider.themeType == ThemeType.pink
+                                ? GlobalVariables.pinkGreyBackgroundCOlor
+                                : GlobalVariables.lightSelectedNavBarColor
+                        : Colors.transparent,
+                    width: bottomBarBorderWidth),
+              ),
+            ),
+            child: Icon(iconData)));
   }
 }

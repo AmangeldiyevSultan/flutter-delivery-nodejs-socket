@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../providers/user_provider.dart';
 
@@ -18,14 +19,14 @@ class CartSubtotal extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: Row(
         children: [
-          const Text(
-            'Subtotal ',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.subtotal,
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),
           Text(
-            '\$$sum',
+            ' \$$sum',
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

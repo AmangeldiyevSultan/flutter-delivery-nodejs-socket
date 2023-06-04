@@ -146,5 +146,202 @@
     "addProduct": "Add Product",
     "@addProduct": {
         "description": "addProduct"
+    },
+
+
+    "googleSignIn": "Google Sign In",
+    "@googleSignIn": {
+        "description": "Google Sign In"
+    },
+    "twitterSignIn": "Twitter Sign In",
+    "@twitterSignIn": {
+        "description": "Twitter Sign In"
+    },
+    "githubSignIn": "GitHub Sign In",
+    "@githubSignIn": {
+        "description": "GitHub Sign In"
+    },
+    "guestmode": "Guest Mode",
+    "@guestmode": {
+        "description": "Guest Mode"
+    },
+    "user": "user",
+    "@user": { 
+        "description": "user"
+    },
+    "address": "Address",
+    "@address": { 
+        "description": "Address"
+    },
+    "role": "Role",
+    "@role": { 
+        "description": "role"
+    },
+    "profile": "Profile",
+    "@profile": {  
+        "description": "profile"
+    },
+    "confirm": "Confirm",
+    "@confirm": {  
+        "description": "confirm"
+    },
+    "subtotal": "Subtotal",
+    "@subtotal": {  
+        "description": "subtotal"
+    },
+    "proceedToBuy": "Proceed to Buy",
+    "@proceedToBuy": {  
+        "description": "Proceed to Buy"
+    },
+    "youCanNotChangeYourRole": "You can not change your role",
+    "@youCanNotChangeYourRole": {  
+        "description": "You can not change your role"
+    },
+    "addressStreet": "Address, Street",
+    "@addressStreet": {  
+        "description": "addressStreet"
+    },
+    "flatHouseBuilding": "Flat, House, Building",
+    "@flatHouseBuilding": {  
+        "description": "flatHouseBuilding"
+    },
+    "pinCode": "Pincode",
+    "@pinCode": {  
+        "description": "pinCode"
+    },
+    "phoneNumber": "Phone Number",
+    "@phoneNumber": {  
+        "description": "phoneNumber"
+    },
+
+    "buyWith": "Buy with",
+    "@buyWith": {  
+        "description": "buyWith"
+    },
+    "orderdate": "Order Date",
+    "@orderdate": {  
+        "description": "orderdate"
+    },
+    "orderId": "Order Id",
+    "@orderId": {  
+        "description": "orderId"
+    },
+    "orderTotal": "Order Total",
+    "@orderTotal": {  
+        "description": "orderTotal"
+    },
+    "viewOrderDetails": "View Order Details",
+    "@viewOrderDetails": {  
+        "description": "viewOrderDetails"
+    },
+    "purchaseDetails": "Purchase Details",
+    "@purchaseDetails": {  
+        "description": "purchaseDetails"
+    },
+    "product": "Product",
+    "@product": {  
+        "description": "product"
+    },
+    "building": "Building",
+    "@building": {  
+        "description": "building"
+    },
+    "phonenum_pincode": "Phone Number / PinCode",
+    "@phonenum_pincode": {  
+        "description": "phonenum_pincode"
+    },
+    "tracking": "Tracking",
+    "@tracking": {  
+        "description": "tracking"
+    },
+    "pending": "Pending",
+    "@pending": {  
+        "description": "pending"
+    },
+    "completed": "Completed",
+    "@completed": {  
+        "description": "completed"
+    },
+    "recieved": "Recieved",
+    "@recieved": {  
+        "description": "recieved"
+    },
+    "delievered": "Delievered",
+    "@delievered": {  
+        "description": "delievered"
+    },
+    "youSignInThrough": "You sign in through",
+    "@youSignInThrough": {  
+        "description": "youSignInThrough"
+    },
+    "youInGuestMode": "You in Guest Mode",
+    "@youInGuestMode": {  
+        "description": "youInGuestMode"
+    },
+    "youCannotChangeName": "You cannot change name(change via original source)!",
+    "@youCannotChangeName": {  
+        "description": "youCannotChangeName"
+    },
+    "pleaseSignIn": "Please sign in!",
+    "@pleaseSignIn": {  
+        "description": "pleaseSignIn"
+    },
+    "showOnMap": "Show on map",
+    "@showOnMap": {  
+        "description": "showOnMap"
+    },
+    "yourOrderIsYetToBeDelivered": "Your order is yet to be delivered",
+    "@yourOrderIsYetToBeDelivered": {  
+        "description": "yourOrderIsYetToBeDelivered"
+    },
+    "yourOrderHasBeenDelivered": "Your order has been delivered, you are yet to sign.",
+    "@yourOrderHasBeenDelivered": {  
+        "description": "yourOrderHasBeenDelivered"
+    },
+    "yourOrderHasBeenDeliveredAndSignedByYou": "Your order has been delivered and signed by you.",
+    "@yourOrderHasBeenDeliveredAndSignedByYou": {  
+        "description": "yourOrderHasBeenDeliveredAndSignedByYou"
+    },
+    "checkYourEmail": "Check your email",
+    "@checkYourEmail": {   
+        "description": "checkYourEmail"
+    },
+    "done": "Done",
+    "@done": {   
+        "description": "done"
+    },
+
+    "chooseCorrectAddress": "Choose correct address",
+    "@chooseCorrectAddress": {   
+        "description": "chooseCorrectAddress"
+    },
+    "pleaseEnterAllTheValues": "Please enter all the values!",
+    "@pleaseEnterAllTheValues": {   
+        "description": "pleaseEnterAllTheValues"
+    },
+    "totalAmount": "Total Amount",
+    "@totalAmount": {   
+        "description": "totalAmount"
+    },
+    "enterYour": "Enter Your",
+    "@enterYour": {   
+        "description": "enterYour"
+    },
+    "eligibleForFreeShipping": " Eligible for Free shipping",
+    "@eligibleForFreeShipping": {   
+        "description": "eligibleForFreeShipping"
+    },
+
+    "dark": "Dark",
+    "@dark": {   
+        "description": "dark"
+    },
+    "light": "Light",
+    "@light": {   
+        "description": "light"
+    },
+    "pink": "pink",
+    "@pink": {   
+        "description": "pink"
     }
 }

@@ -66,7 +66,7 @@ class _OrdersState extends State<Orders> {
                     child: Text(
                       AppLocalizations.of(context)!.seeAll,
                       style: TextStyle(
-                        color: GlobalVariables.selectedNavBarColor,
+                        color: GlobalVariables.lightSelectedNavBarColor,
                       ),
                     ),
                   ),
@@ -100,7 +100,7 @@ class _OrdersState extends State<Orders> {
                         child: Text(
                           AppLocalizations.of(context)!.seeAll,
                           style: TextStyle(
-                            color: GlobalVariables.selectedNavBarColor,
+                            color: GlobalVariables.lightSelectedNavBarColor,
                           ),
                         ),
                       ),

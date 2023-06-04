@@ -5,6 +5,9 @@ import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/constants/utils.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
 import 'package:gooddelivary/features/profile/service/profile_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileTitleChange extends StatefulWidget {
   final UserTitleType userTitleType;
@@ -29,7 +32,7 @@ class _ProfileTitleChangeState extends State<ProfileTitleChange> {
   final ProfileService _profileService = ProfileService();
   final _changeUserDataFormKey = GlobalKey<FormState>();
 
-  setChange() {
+  _setChange() {
     _profileService.changeUserData(
         context: context,
         userTitleType: widget.userTitleType,
@@ -38,13 +41,18 @@ class _ProfileTitleChangeState extends State<ProfileTitleChange> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
+            decoration: BoxDecoration(
+              gradient: themeProvider.themeType == ThemeType.dark
+                  ? GlobalVariables.darkAppBarGradient
+                  : themeProvider.themeType == ThemeType.pink
+                      ? GlobalVariables.pinkAppBarGradient
+                      : GlobalVariables.appBarGradient,
             ),
           ),
           title: Column(
@@ -83,7 +91,7 @@ class _ProfileTitleChangeState extends State<ProfileTitleChange> {
                     if (isEmailValid) {
                       return null;
                     } else {
-                      return "Check your email";
+                      return AppLocalizations.of(context)!.checkYourEmail;
                     }
                   }
                   return null;
@@ -92,12 +100,25 @@ class _ProfileTitleChangeState extends State<ProfileTitleChange> {
               ),
             ),
             OutlinedButton(
+                style: ButtonStyle(
+                    backgroundColor: context.watch<ThemeProvider>().themeType ==
+                            ThemeType.dark
+                        ? const MaterialStatePropertyAll(
+                            GlobalVariables.darkButtonBackgroundCOlor)
+                        : null),
                 onPressed: () {
                   if (_changeUserDataFormKey.currentState!.validate()) {
-                    setChange();
+                    _setChange();
                   }
                 },
-                child: const Text('Confirm'))
+                child: Text(
+                  AppLocalizations.of(context)!.confirm,
+                  style: TextStyle(
+                      color: context.watch<ThemeProvider>().themeType ==
+                              ThemeType.dark
+                          ? Colors.white
+                          : null),
+                ))
           ],
         ),
       ),

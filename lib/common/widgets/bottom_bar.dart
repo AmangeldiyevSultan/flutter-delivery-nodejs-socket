@@ -1,8 +1,10 @@
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
 import 'package:gooddelivary/features/account/screens/account_screen.dart';
 import 'package:gooddelivary/features/cart/screens/cart_screen.dart';
 import 'package:gooddelivary/features/home/screens/home_screen.dart';
 import 'package:gooddelivary/features/profile/screen/profile_screen.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,82 +39,83 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     final userCartLength = context.watch<UserProvider>().user.cart.length;
+    final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(
       body: pages[_page],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _page,
-        selectedItemColor: GlobalVariables.selectedNavBarColor,
-        unselectedItemColor: GlobalVariables.unselectedNavBarColor,
-        backgroundColor: GlobalVariables.backgroundColor,
-        iconSize: 28,
-        onTap: updatePage,
-        items: [
-          //Home page
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 0
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: const Icon(Icons.home_outlined))),
-          //account
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 1
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: const Icon(Icons.shopping_bag_outlined))),
-          //cart
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 2
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: badge.Badge(
-                      elevation: 0,
-                      badgeContent: Text(userCartLength.toString()),
-                      badgeColor: Colors.white,
-                      child: const Icon(Icons.shopping_cart_outlined)))),
-          //user profile
-          BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                          color: _page == 3
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.backgroundColor,
-                          width: bottomBarBorderWidth),
-                    ),
-                  ),
-                  child: const Icon(Icons.account_box_outlined))),
-        ],
-      ),
+      bottomNavigationBar: _bottomNavigationBar(themeProvider, userCartLength),
     );
+  }
+
+  BottomNavigationBar _bottomNavigationBar(
+      ThemeProvider themeProvider, int userCartLength) {
+    return BottomNavigationBar(
+      currentIndex: _page,
+      selectedItemColor: themeProvider.themeType == ThemeType.dark
+          ? GlobalVariables().darkSelectedNavBarColor
+          : themeProvider.themeType == ThemeType.pink
+              ? GlobalVariables.pinkGreyBackgroundCOlor
+              : GlobalVariables.lightSelectedNavBarColor,
+      unselectedItemColor: themeProvider.themeType == ThemeType.dark
+          ? Colors.white38
+          : themeProvider.themeType == ThemeType.pink
+              ? GlobalVariables.pinkBackgroundColor
+              : GlobalVariables.lightUnselectedNavBarColor,
+      backgroundColor: GlobalVariables.lightBackgroundColor,
+      iconSize: 28,
+      onTap: updatePage,
+      items: [
+        //Home page
+        _bottomNavigationBarItem(
+            themeProvider, 0, userCartLength, Icons.shopping_cart_outlined),
+        //account
+        _bottomNavigationBarItem(
+            themeProvider, 1, userCartLength, Icons.shopping_bag_outlined),
+        //cart
+        _bottomNavigationBarItem(
+            themeProvider, 2, userCartLength, Icons.shopping_cart_outlined),
+
+        //user profile
+        _bottomNavigationBarItem(
+            themeProvider, 3, userCartLength, Icons.account_box_outlined),
+      ],
+    );
+  }
+
+  BottomNavigationBarItem _bottomNavigationBarItem(ThemeProvider themeProvider,
+      int page, int userCartLength, IconData iconData) {
+    return BottomNavigationBarItem(
+        label: '',
+        icon: Container(
+            width: bottomBarWidth,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                    color: _page == page
+                        ? themeProvider.themeType == ThemeType.dark
+                            ? GlobalVariables().darkSelectedNavBarColor
+                            : themeProvider.themeType == ThemeType.pink
+                                ? GlobalVariables.pinkGreyBackgroundCOlor
+                                : GlobalVariables.lightSelectedNavBarColor
+                        : Colors.transparent,
+                    width: bottomBarBorderWidth),
+              ),
+            ),
+            child: page == 2
+                ? badge.Badge(
+                    elevation: 0,
+                    badgeContent: Text(
+                      userCartLength.toString(),
+                      style: TextStyle(
+                          color: themeProvider.themeType == ThemeType.pink
+                              ? Colors.white
+                              : null),
+                    ),
+                    badgeColor: themeProvider.themeType == ThemeType.dark
+                        ? GlobalVariables.darkGreyBackgroundCOlor
+                        : themeProvider.themeType == ThemeType.pink
+                            ? GlobalVariables.pinkGreyBackgroundCOlor
+                            : Colors.white,
+                    child: Icon(iconData))
+                : Icon(iconData)));
   }
 }

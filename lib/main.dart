@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gooddelivary/common/widgets/bottom_bar.dart';
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
 import 'package:gooddelivary/features/admin/screens/admin_screen.dart';
 import 'package:gooddelivary/features/admin/services/admin_services.dart';
@@ -11,6 +12,7 @@ import 'package:gooddelivary/common/config/firebase_options.dart';
 import 'package:gooddelivary/l10n/l10n.dart';
 import 'package:gooddelivary/providers/locale_provider.dart';
 import 'package:gooddelivary/providers/location_provider.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:gooddelivary/routes.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +89,9 @@ void main() async {
     ChangeNotifierProvider(
       create: (context) => LocaleProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+    ),
     ChangeNotifierProvider(create: (context) => LocationProvider()),
   ], child: const MyApp()));
 }
@@ -117,28 +122,77 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
     _adminServices.ordersStatusForAdmin(context);
-    return MaterialApp(
-        title: 'GoodDelivary',
-        theme: ThemeData(
-            scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-            colorScheme: const ColorScheme.light(
-                primary: GlobalVariables.secondaryColor),
-            appBarTheme: const AppBarTheme(elevation: 0),
-            iconTheme: const IconThemeData(color: Colors.black)),
-        locale: localeProvider.locale,
-        supportedLocales: L10n.all,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        onGenerateRoute: (settings) => generateRoute(settings),
-        navigatorKey: navigatorKey,
-        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? Provider.of<UserProvider>(context).user.type == 'user'
-                ? const BottomBar()
-                : const AdminScreen()
-            : const AuthScreen());
+
+    return ChangeNotifierProvider(
+        create: (_) => ThemeProvider(),
+        child: Consumer<ThemeProvider>(
+            builder: (context, ThemeProvider themeNotifier, child) {
+          return MaterialApp(
+              title: 'GoodDelivary',
+              theme: themeNotifier.themeType == ThemeType.light
+                  ? lightThemeData()
+                  : themeNotifier.themeType == ThemeType.dark
+                      ? darkThemeData()
+                      : pinkThemeData(),
+              locale: localeProvider.locale,
+              supportedLocales: L10n.all,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              onGenerateRoute: (settings) => generateRoute(settings),
+              navigatorKey: navigatorKey,
+              home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+                  ? Provider.of<UserProvider>(context).user.type == 'user'
+                      ? const BottomBar()
+                      : const AdminScreen()
+                  : const AuthScreen());
+        }));
+  }
+
+  ThemeData pinkThemeData() {
+    return ThemeData(
+      scaffoldBackgroundColor: GlobalVariables.pinkBackSecondaryColor,
+      snackBarTheme: const SnackBarThemeData(
+          backgroundColor: GlobalVariables.pinkGreyBackgroundCOlor),
+      radioTheme: const RadioThemeData(
+          fillColor:
+              MaterialStatePropertyAll(GlobalVariables.pinkSecondaryColor)),
+      appBarTheme: const AppBarTheme(
+          backgroundColor: GlobalVariables.pinkGreyBackgroundCOlor),
+      colorScheme:
+          const ColorScheme.light(primary: GlobalVariables.pinkSecondaryColor),
+    );
+  }
+
+  ThemeData lightThemeData() {
+    return ThemeData(
+        snackBarTheme: SnackBarThemeData(
+            backgroundColor: GlobalVariables.lightSelectedNavBarColor),
+        radioTheme: const RadioThemeData(
+            fillColor:
+                MaterialStatePropertyAll(GlobalVariables.lightSecondaryColor)),
+        scaffoldBackgroundColor: GlobalVariables.lightBackgroundColor,
+        colorScheme: const ColorScheme.light(
+            primary: GlobalVariables.lightSecondaryColor),
+        appBarTheme: const AppBarTheme(elevation: 0),
+        iconTheme: const IconThemeData(color: Colors.black));
+  }
+
+  ThemeData darkThemeData() {
+    return ThemeData(
+      snackBarTheme: const SnackBarThemeData(
+          backgroundColor: GlobalVariables.darkButtonBackgroundCOlor,
+          contentTextStyle: TextStyle(color: Colors.white)),
+      radioTheme: const RadioThemeData(
+          fillColor:
+              MaterialStatePropertyAll(GlobalVariables.darkSecondaryColor)),
+      appBarTheme: const AppBarTheme(
+          backgroundColor: GlobalVariables.darkGreyBackgroundCOlor),
+      colorScheme:
+          const ColorScheme.dark(primary: GlobalVariables.darkSecondaryColor),
+    );
   }
 }

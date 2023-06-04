@@ -38,10 +38,9 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
     } catch (e) {
       res.status(500).json({ error: e.message});
     }
-  });
+}); 
   
 //delete cart
-
 userRouter.delete("/api/remove-from-cart/:id", auth, async (req, res) => {
   try {  
     const { id } = req.params;
@@ -98,7 +97,6 @@ userRouter.post("/api/order", auth, async (req, res) => {
     let user = await User.findById(req.user);
     user.cart = [];
     user = await user.save();
-    console.log(address);
     let order = new Order({
       products,
       totalPrice,
@@ -106,16 +104,15 @@ userRouter.post("/api/order", auth, async (req, res) => {
       userId: req.user,
       orderedAt: new Date().getTime(),
     });
-    console.log(order); 
 
     order = await order.save();
     res.json(order); 
   } catch (e){
     res.status(500).json({error: e.message});
-    console.log(e.message);
   }
 });
 
+// user's order
 userRouter.get("/api/orders/me", auth, async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.user });

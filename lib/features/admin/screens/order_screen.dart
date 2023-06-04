@@ -20,10 +20,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    fetchOrders();
+    _fetchOrders();
   }
 
-  void fetchOrders() async {
+  void _fetchOrders() async {
     orders = await adminServices.fetchAllOrders(context);
     setState(() {});
   }

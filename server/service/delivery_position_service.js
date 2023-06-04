@@ -11,9 +11,6 @@ const delivaryPositionChange = async (data) => {
     }
     if(data['distance'] != undefined && data['distance'] != null){
         let user = await User.findOne({_id: data['client_id']});
-        console.log(data['distance']); 
-        console.log('room'); 
-        console.log(data['room']);
         if(!order.delivaryPosition.getClose && data['getClose']){ 
             var title = 'Your order get close!'
             axios.post(`${data['uri']}/api/send-notification?title=${title}&fcmToken=${user.FCMToken}`);

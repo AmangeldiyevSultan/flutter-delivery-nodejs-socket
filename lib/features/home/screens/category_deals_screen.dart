@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/constants/enums.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../common/widgets/loader.dart';
 import '../../../constants/global_variables.dart';
@@ -28,10 +31,10 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
   @override
   void initState() {
     super.initState();
-    fetchCategoryProducts();
+    _fetchCategoryProducts();
   }
 
-  fetchCategoryProducts() async {
+  _fetchCategoryProducts() async {
     productList = await homeServices.fetchCategoryProducts(
       context: context,
       category: widget.category,
@@ -55,8 +58,13 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
+            decoration: BoxDecoration(
+              gradient: context.watch<ThemeProvider>().themeType ==
+                      ThemeType.dark
+                  ? GlobalVariables.darkAppBarGradient
+                  : context.watch<ThemeProvider>().themeType == ThemeType.pink
+                      ? GlobalVariables.pinkAppBarGradient
+                      : GlobalVariables.appBarGradient,
             ),
           ),
           title: Text(

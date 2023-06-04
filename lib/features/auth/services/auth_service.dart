@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:github_sign_in_plus/github_sign_in_plus.dart';
 import 'package:gooddelivary/common/widgets/bottom_bar.dart';
 import 'package:gooddelivary/constants/error_handling.dart';
 import 'package:gooddelivary/constants/global_variables.dart';
@@ -15,6 +16,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twitter_login/entity/auth_result.dart';
 
 class AuthService {
   // sign up user
@@ -24,6 +26,7 @@ class AuthService {
     required String email,
     required String password,
     required String name,
+    required String typeUser,
   }) async {
     try {
       String? fcmToken = await FirebaseMessaging.instance.getToken();
@@ -33,9 +36,9 @@ class AuthService {
           name: name,
           password: password,
           address: '',
-          type: '',
           FCMToken: fcmToken ?? '',
           token: '',
+          type: typeUser,
           cart: []);
       http.Response response = await http.post(Uri.parse('$uri/api/signup'),
           body: user.toJson(),
@@ -48,6 +51,108 @@ class AuthService {
           onSuccess: () {
             showSnackBar(
                 context, 'Account created! Login with same credentials');
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  //github sign in
+  void githubSignInUser({
+    required BuildContext context,
+    required GitHubSignInResult gitHubSignInResult,
+  }) async {
+    try {
+      http.Response tokenRes = await http.get(
+          Uri.parse('https://api.github.com/user'),
+          headers: <String, String>{
+            'Authorization': 'Bearer ${gitHubSignInResult.token}'
+          });
+      String gitId = '';
+      String gitLogin = '';
+      if (tokenRes.statusCode == 200) {
+        gitId = json.decode(tokenRes.body)['id'].toString();
+        gitLogin = json.decode(tokenRes.body)['login'].toString();
+      } else {
+        return showSnackBar(context, 'Please retry!');
+      }
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      User user = User(
+          id: '',
+          email: '$gitId@github.com',
+          name: gitLogin,
+          password: '',
+          address: '',
+          type: '',
+          FCMToken: fcmToken ?? '',
+          token: '',
+          cart: []);
+      http.Response response = await http.post(
+          Uri.parse('$uri/api/githubsignup'),
+          body: user.toJson(),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(response.body);
+            await prefs.setString(
+                "x-auth-token", jsonDecode(response.body)['token']);
+            jsonDecode(response.body)['type'] == 'user'
+                ? Navigator.pushNamedAndRemoveUntil(
+                    context, BottomBar.routeName, (route) => false)
+                : Navigator.pushNamedAndRemoveUntil(
+                    context, AdminScreen.routeName, (route) => false);
+            showSnackBar(context, 'Account sign in!');
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  //twitter sign in
+  void twitterSignInUser({
+    required BuildContext context,
+    required AuthResult twitterUserAccount,
+  }) async {
+    try {
+      final twitterUser = twitterUserAccount.user;
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      User user = User(
+          id: '',
+          email: '${twitterUser!.id}@twitter.com',
+          name: twitterUser.name,
+          password: '',
+          address: '',
+          type: '',
+          FCMToken: fcmToken ?? '',
+          token: '',
+          cart: []);
+      http.Response response = await http.post(
+          Uri.parse('$uri/api/twittersignup'),
+          body: user.toJson(),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(response.body);
+            await prefs.setString(
+                "x-auth-token", jsonDecode(response.body)['token']);
+            jsonDecode(response.body)['type'] == 'user'
+                ? Navigator.pushNamedAndRemoveUntil(
+                    context, BottomBar.routeName, (route) => false)
+                : Navigator.pushNamedAndRemoveUntil(
+                    context, AdminScreen.routeName, (route) => false);
+            showSnackBar(context, 'Account sign in!');
           });
     } catch (e) {
       showSnackBar(context, e.toString());

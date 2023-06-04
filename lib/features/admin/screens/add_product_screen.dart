@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:gooddelivary/common/widgets/custom_button.dart';
 import 'package:gooddelivary/common/widgets/custom_textfield.dart';
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/constants/utils.dart';
 import 'package:gooddelivary/features/admin/services/admin_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,7 +49,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Fashion',
   ];
 
-  void sellProduct() {
+  void _sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
       adminServices.sellProduct(
           context: context,
@@ -59,7 +62,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
   }
 
-  void selectImages() async {
+  void _selectImages() async {
     var res = await pickImages();
     setState(() {
       images = res;
@@ -87,8 +90,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
               ),
               flexibleSpace: Container(
-                decoration: const BoxDecoration(
-                    gradient: GlobalVariables.appBarGradient),
+                decoration: BoxDecoration(
+                    gradient: context.watch<ThemeProvider>().themeType ==
+                            ThemeType.dark
+                        ? GlobalVariables.darkAppBarGradient
+                        : context.watch<ThemeProvider>().themeType ==
+                                ThemeType.pink
+                            ? GlobalVariables.pinkAppBarGradient
+                            : GlobalVariables.appBarGradient),
               ),
               title: Text(
                 AppLocalizations.of(context)!.addProduct,
@@ -124,7 +133,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                   )
                 : GestureDetector(
-                    onTap: selectImages,
+                    onTap: _selectImages,
                     child: DottedBorder(
                         borderType: BorderType.RRect,
                         radius: const Radius.circular(10),
@@ -212,7 +221,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               height: 10,
             ),
             CustomButton(
-                text: AppLocalizations.of(context)!.sell, onTap: sellProduct)
+                text: AppLocalizations.of(context)!.sell, onTap: _sellProduct)
           ]),
         ),
       )),

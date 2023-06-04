@@ -1,5 +1,7 @@
 import 'package:gooddelivary/features/account/services/account_services.dart';
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../auth/screens/auth_screen.dart';
 import 'account_button.dart';
@@ -10,6 +12,7 @@ class TopButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Column(
       children: [
         Row(
@@ -19,14 +22,14 @@ class TopButtons extends StatelessWidget {
               onTap: () {},
             ),
             AccountButton(
-                text: AppLocalizations.of(context)!.logout,
+                text: userProvider.user.token.isEmpty
+                    ? AppLocalizations.of(context)!.signin
+                    : AppLocalizations.of(context)!.logout,
                 onTap: () {
                   AccountServices().logOut(context);
                   Navigator.pushNamedAndRemoveUntil(
                       context, AuthScreen.routeName, (route) => false);
-                }
-                // AccountServices().logOut(context),
-                ),
+                }),
           ],
         ),
         const SizedBox(height: 10),

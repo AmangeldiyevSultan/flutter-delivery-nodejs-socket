@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:gooddelivary/common/config/api_keys.dart';
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/models/reciever_location.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -11,6 +13,7 @@ import '../../../constants/global_variables.dart';
 import '../../../constants/utils.dart';
 import '../../../providers/user_provider.dart';
 import '../services/address_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddressScreen extends StatefulWidget {
   static const String routeName = '/address';
@@ -60,7 +63,7 @@ class _AddressScreenState extends State<AddressScreen> {
     addressNameContoller.dispose();
   }
 
-  void onChangeLocationName() async {
+  void _onChangeLocationName() async {
     // ignore: prefer_conditional_assignment, unnecessary_null_comparison
     if (_sessionToken == null) {
       _sessionToken = uuid.v4();
@@ -69,7 +72,7 @@ class _AddressScreenState extends State<AddressScreen> {
         addressName: addressNameContoller.text, sessionToken: _sessionToken);
   }
 
-  void onApplePayResult(res) {
+  void _onApplePayResult(res) {
     if (Provider.of<UserProvider>(context, listen: false)
         .user
         .address
@@ -84,7 +87,7 @@ class _AddressScreenState extends State<AddressScreen> {
     );
   }
 
-  void onGooglePayResult(res) {
+  void _onGooglePayResult(res) {
     if (Provider.of<UserProvider>(context, listen: false)
         .user
         .address
@@ -99,7 +102,7 @@ class _AddressScreenState extends State<AddressScreen> {
     );
   }
 
-  void payPressed() {
+  void _payPressed() {
     bool isForm = flatBuildingController.text.isNotEmpty &&
         pincodeController.text.isNotEmpty &&
         phoneNumberController.text.isNotEmpty;
@@ -107,7 +110,7 @@ class _AddressScreenState extends State<AddressScreen> {
     if (!isForm) {
       if (_addressFormKey.currentState!.validate()) {
       } else {
-        throw Exception('Please enter all the values!');
+        throw Exception(AppLocalizations.of(context)!.pleaseEnterAllTheValues);
       }
     } else if (_locationInfo['placeInfo'] != null) {
       Map<String, dynamic> personalInfo = {
@@ -118,12 +121,12 @@ class _AddressScreenState extends State<AddressScreen> {
       _locationInfo.addEntries(personalInfo.entries);
       recieverLocation = RecieverLocation.fromMap(_locationInfo);
     } else {
-      showSnackBar(context, 'Choose correct address');
-      throw Exception('lease enter all the values!');
+      showSnackBar(context, AppLocalizations.of(context)!.chooseCorrectAddress);
+      throw Exception(AppLocalizations.of(context)!.pleaseEnterAllTheValues);
     }
   }
 
-  void getAddressCoordinates(Map<String, dynamic> place) async {
+  void _getAddressCoordinates(Map<String, dynamic> place) async {
     GeoData addressCoordinatesGeoData = await Geocoder2.getDataFromAddress(
         address: place['description'], googleMapApiKey: kGoogleApi);
     _locationInfo = {
@@ -137,13 +140,18 @@ class _AddressScreenState extends State<AddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
+            decoration: BoxDecoration(
+              gradient: themeProvider.themeType == ThemeType.dark
+                  ? GlobalVariables.darkAppBarGradient
+                  : themeProvider.themeType == ThemeType.pink
+                      ? GlobalVariables.pinkAppBarGradient
+                      : GlobalVariables.appBarGradient,
             ),
           ),
         ),
@@ -156,14 +164,19 @@ class _AddressScreenState extends State<AddressScreen> {
               CustomTextField(
                 onChanged: (value) {
                   setState(() {
-                    onChangeLocationName();
+                    _onChangeLocationName();
                   });
                 },
                 controller: addressNameContoller,
-                hintText: _locationInfo['placeInfo'] ?? 'Address, Street',
+                hintText: _locationInfo['placeInfo'] ??
+                    AppLocalizations.of(context)!.addressStreet,
                 hintColor: _locationInfo['placeInfo'] != null
-                    ? Colors.black
-                    : Colors.black54,
+                    ? themeProvider.themeType == ThemeType.dark
+                        ? Colors.white
+                        : Colors.black
+                    : themeProvider.themeType == ThemeType.dark
+                        ? Colors.white54
+                        : Colors.black54,
               ),
               const SizedBox(
                 height: 10,
@@ -178,7 +191,8 @@ class _AddressScreenState extends State<AddressScreen> {
                       return ListTile(
                         title: GestureDetector(
                           child: Text(_placeList[index]['description']),
-                          onTap: () => getAddressCoordinates(_placeList[index]),
+                          onTap: () =>
+                              _getAddressCoordinates(_placeList[index]),
                         ),
                       );
                     },
@@ -192,17 +206,17 @@ class _AddressScreenState extends State<AddressScreen> {
                   children: [
                     CustomTextField(
                       controller: flatBuildingController,
-                      hintText: 'Flat, House, Building',
+                      hintText: AppLocalizations.of(context)!.flatHouseBuilding,
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
                       controller: pincodeController,
-                      hintText: 'Pincode',
+                      hintText: AppLocalizations.of(context)!.pinCode,
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
                       controller: phoneNumberController,
-                      hintText: 'Phone Number',
+                      hintText: AppLocalizations.of(context)!.phoneNumber,
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -214,18 +228,18 @@ class _AddressScreenState extends State<AddressScreen> {
                 type: ApplePayButtonType.buy,
                 // ignore: deprecated_member_use
                 paymentConfigurationAsset: 'applepay.json',
-                onPaymentResult: onApplePayResult,
+                onPaymentResult: _onApplePayResult,
                 paymentItems: paymentItems,
                 margin: const EdgeInsets.only(top: 15),
                 height: 50,
-                onPressed: () => payPressed(),
+                onPressed: () => _payPressed(),
               ),
               const SizedBox(height: 10),
               GooglePayButton(
-                onPressed: () => payPressed(),
+                onPressed: () => _payPressed(),
                 // ignore: deprecated_member_use
                 paymentConfigurationAsset: 'gpay.json',
-                onPaymentResult: onGooglePayResult,
+                onPaymentResult: _onGooglePayResult,
                 paymentItems: paymentItems,
                 height: 50,
                 type: GooglePayButtonType.buy,

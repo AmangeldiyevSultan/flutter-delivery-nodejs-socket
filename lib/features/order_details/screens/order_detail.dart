@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/common/widgets/app_bar.dart';
+import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/features/order_details/screens/good_map.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +12,7 @@ import '../../../models/order.dart';
 import '../../../providers/user_provider.dart';
 import '../../admin/services/admin_services.dart';
 import '../../search/screens/search_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   static const String routeName = '/order-details';
@@ -26,11 +30,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   int currentStep = 0;
   final AdminServices adminServices = AdminServices();
 
-  void navigateToSearchScreen(String query) {
+  void _navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
-  void navigateToGoodMap(Order orderParams) {
+  void _navigateToGoodMap(Order orderParams) {
     Navigator.pushNamed(context, GoodMap.routeName, arguments: orderParams);
   }
 
@@ -41,7 +45,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   // !!! ONLY FOR ADMIN!!!
-  void changeOrderStatus(int status) {
+  void _changeOrderStatus(int status) {
     adminServices.changeOrderStatus(
       context: context,
       status: status + 1,
@@ -62,75 +66,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
-            ),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  height: 42,
-                  margin: const EdgeInsets.only(left: 15),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7),
-                    elevation: 1,
-                    child: TextFormField(
-                      onFieldSubmitted: navigateToSearchScreen,
-                      decoration: InputDecoration(
-                        prefixIcon: InkWell(
-                          onTap: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.only(
-                              left: 6,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                              size: 23,
-                            ),
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(7),
-                          ),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(7),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black38,
-                            width: 1,
-                          ),
-                        ),
-                        hintText: 'Search GoodDelivary',
-                        hintStyle: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(Icons.mic, color: Colors.black, size: 25),
-              ),
-            ],
-          ),
-        ),
+        child:
+            AppBarWithSearch(navigateToSearchScreen: _navigateToSearchScreen),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -138,9 +75,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'View order details',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.viewOrderDetails,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -156,19 +93,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Order Date:      ${DateFormat().format(
+                    Text(
+                        '${AppLocalizations.of(context)!.orderdate}:      ${DateFormat().format(
                       DateTime.fromMillisecondsSinceEpoch(
                           widget.order.orderedAt),
                     )}'),
-                    Text('Order ID:          ${widget.order.id}'),
-                    Text('Order Total:      \$${widget.order.totalPrice}'),
+                    Text(
+                        '${AppLocalizations.of(context)!.orderId}:          ${widget.order.id}'),
+                    Text(
+                        '${AppLocalizations.of(context)!.orderTotal}:      \$${widget.order.totalPrice}'),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Purchase Details',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.purchaseDetails,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -207,9 +147,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Text(
                                   'Qty: ${widget.order.quantity[i]}',
                                 ),
-                                const Text(
-                                  'Address: ',
-                                  style: TextStyle(
+                                Text(
+                                  '${AppLocalizations.of(context)!.address}: ',
+                                  style: const TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -219,9 +159,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Text(
                                   widget.order.address.placeInfo!,
                                 ),
-                                const Text(
-                                  'Building: ',
-                                  style: TextStyle(
+                                Text(
+                                  '${AppLocalizations.of(context)!.building}: ',
+                                  style: const TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -231,9 +171,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Text(
                                   widget.order.address.buidlingInfo!,
                                 ),
-                                const Text(
-                                  'Phone Number / PinCode: ',
-                                  style: TextStyle(
+                                Text(
+                                  '${AppLocalizations.of(context)!.phonenum_pincode}: ',
+                                  style: const TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -241,7 +181,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  'phone: ${widget.order.address.phoneNumber!} \npincode:${widget.order.address.pincode}',
+                                  '${AppLocalizations.of(context)!.phoneNumber}: ${widget.order.address.phoneNumber!} \n${AppLocalizations.of(context)!.pinCode}:${widget.order.address.pincode}',
                                 ),
                               ],
                             ),
@@ -255,18 +195,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Tracking',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.tracking,
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   if (currentStep == 1) ...[
                     GestureDetector(
-                      onTap: () => navigateToGoodMap(widget.order),
-                      child: const Text('Show on map',
-                          style: TextStyle(
+                      onTap: () => _navigateToGoodMap(widget.order),
+                      child: Text(AppLocalizations.of(context)!.showOnMap,
+                          style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
                     )
                   ],
@@ -284,8 +224,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     if (user.type == 'admin') {
                       if (currentStep < 3) {
                         return CustomButton(
-                          text: 'Done',
-                          onTap: () => changeOrderStatus(details.currentStep),
+                          text: AppLocalizations.of(context)!.done,
+                          onTap: () => _changeOrderStatus(details.currentStep),
                         );
                       }
                     }
@@ -293,9 +233,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   },
                   steps: [
                     Step(
-                      title: const Text('Pending'),
-                      content: const Text(
-                        'Your order is yet to be delivered',
+                      title: Text(AppLocalizations.of(context)!.pending),
+                      content: Text(
+                        AppLocalizations.of(context)!
+                            .yourOrderIsYetToBeDelivered,
                       ),
                       isActive: currentStep > 0,
                       state: currentStep > 0
@@ -303,9 +244,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           : StepState.indexed,
                     ),
                     Step(
-                      title: const Text('Completed'),
-                      content: const Text(
-                        'Your order has been delivered, you are yet to sign.',
+                      title: Text(AppLocalizations.of(context)!.completed),
+                      content: Text(
+                        AppLocalizations.of(context)!.yourOrderHasBeenDelivered,
                       ),
                       isActive: currentStep > 1,
                       state: currentStep > 1
@@ -313,9 +254,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           : StepState.indexed,
                     ),
                     Step(
-                      title: const Text('Received'),
-                      content: const Text(
-                        'Your order has been delivered and signed by you.',
+                      title: Text(AppLocalizations.of(context)!.recieved),
+                      content: Text(
+                        AppLocalizations.of(context)!
+                            .yourOrderHasBeenDeliveredAndSignedByYou,
                       ),
                       isActive: currentStep > 2,
                       state: currentStep > 2
@@ -323,9 +265,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           : StepState.indexed,
                     ),
                     Step(
-                      title: const Text('Delivered'),
-                      content: const Text(
-                        'Your order has been delivered and signed by you!',
+                      title: Text(AppLocalizations.of(context)!.delievered),
+                      content: Text(
+                        AppLocalizations.of(context)!
+                            .yourOrderHasBeenDeliveredAndSignedByYou,
                       ),
                       isActive: currentStep >= 3,
                       state: currentStep >= 3

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/constants/enums.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class SingleProduct extends StatelessWidget {
   final String image;
@@ -20,7 +23,9 @@ class SingleProduct extends StatelessWidget {
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(5),
-          color: Colors.white,
+          color: context.watch<ThemeProvider>().themeType == ThemeType.dark
+              ? Colors.black26
+              : Colors.white,
         ),
         child: Stack(
           children: [
