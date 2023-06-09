@@ -1,7 +1,6 @@
 import 'package:gooddelivary/common/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../models/sales.dart';
 import '../services/admin_services.dart';
 
