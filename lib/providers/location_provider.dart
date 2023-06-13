@@ -86,11 +86,10 @@ class LocationProvider extends ChangeNotifier {
   }
 
   void stopListeningToLocationUpdates() {
-    if (_locationSubscription != null) {
-      _locationSubscription!.cancel();
-      _locationSubscription = null;
-      _locationSaveTimer?.cancel();
-    }
+    _locationSubscription?.cancel();
+
+    _locationSaveTimer?.cancel();
+
     notifyListeners();
   }
 

@@ -18,7 +18,7 @@ import '../../../providers/location_provider.dart';
 import '../models/sales.dart';
 
 class AdminServices {
-  void sellProduct({
+  Future<void> sellProduct({
     required BuildContext context,
     required String name,
     required String description,

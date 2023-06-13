@@ -24,6 +24,12 @@ class ThemeProvider extends ChangeNotifier {
     _preferences.setTheme(themeType);
     notifyListeners();
   }
+
+  void resetTheme() async {
+    _themeType = ThemeType.light;
+    _preferences.setTheme(ThemeType.light);
+    notifyListeners();
+  }
 }
 
 class MyThemePreferences {

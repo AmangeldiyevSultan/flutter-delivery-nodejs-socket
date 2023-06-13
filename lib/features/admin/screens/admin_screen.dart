@@ -1,6 +1,4 @@
 import 'package:gooddelivary/common/widgets/app_bar.dart';
-import 'package:gooddelivary/common/widgets/locale_widget.dart';
-import 'package:gooddelivary/common/widgets/theme_widget.dart';
 import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/features/admin/screens/analytics_screen.dart';
 import 'package:gooddelivary/features/admin/screens/order_screen.dart';

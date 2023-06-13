@@ -343,5 +343,14 @@
     "pink": "pink",
     "@pink": {   
         "description": "pink"
+    },
+
+    "resetTheme": "Reset Theme",
+    "@resetTheme": {   
+        "description": "resetTheme"
+    },
+    "resetLocale": "Reset Locale",
+    "@resetLocale": {   
+        "description": "resetLocale"
     }
 }

@@ -71,7 +71,6 @@ class _GoodMapState extends State<GoodMap> {
   Widget build(BuildContext context) {
     final locationProvider = context.watch<LocationProvider>();
     final userProvider = context.watch<UserProvider>();
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),

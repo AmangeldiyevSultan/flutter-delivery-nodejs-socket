@@ -1,5 +1,7 @@
 import 'package:gooddelivary/features/account/services/account_services.dart';
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/providers/locale_provider.dart';
+import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:gooddelivary/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +35,24 @@ class TopButtons extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
+        Row(
+          children: [
+            AccountButton(
+              text: AppLocalizations.of(context)!.resetLocale,
+              onTap: () {
+                final localProvider = context.read<LocaleProvider>();
+                localProvider.resetLocale();
+              },
+            ),
+            AccountButton(
+              text: AppLocalizations.of(context)!.resetTheme,
+              onTap: () {
+                final themeProvider = context.read<ThemeProvider>();
+                themeProvider.resetTheme();
+              },
+            ),
+          ],
+        )
       ],
     );
   }

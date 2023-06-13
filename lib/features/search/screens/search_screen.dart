@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gooddelivary/common/widgets/app_bar.dart';
-import 'package:gooddelivary/constants/enums.dart';
-import 'package:gooddelivary/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
 
 import '../../../common/widgets/loader.dart';
-import '../../../constants/global_variables.dart';
 import '../../../models/product.dart';
 import '../../home/widgets/address_box.dart';
 import '../../product_details/screens/product_detail_screen.dart';
 import '../services/search_services.dart';
 import '../widgets/searched_product.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String routeName = '/search-screen';

@@ -8,6 +8,7 @@ import 'package:gooddelivary/features/admin/services/admin_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:gooddelivary/providers/location_provider.dart';
 import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +38,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     quantityController.dispose();
   }
 
+  late bool isLoading;
   String category = 'Mobiles';
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
@@ -51,14 +53,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void _sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
-      adminServices.sellProduct(
-          context: context,
-          name: productNameController.text,
-          description: descriptionController.text,
-          price: double.parse(priceController.text),
-          quantity: double.parse(quantityController.text),
-          category: category,
-          images: images);
+      isLoading = true;
+      setState(() {});
+      adminServices
+          .sellProduct(
+              context: context,
+              name: productNameController.text,
+              description: descriptionController.text,
+              price: double.parse(priceController.text),
+              quantity: double.parse(quantityController.text),
+              category: category,
+              images: images)
+          .then((value) {
+        isLoading = false;
+        setState(() {});
+      });
     }
   }
 
@@ -73,6 +82,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void initState() {
     productCategories;
     category;
+    isLoading = false;
     super.initState();
   }
 
@@ -220,8 +230,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
             const SizedBox(
               height: 10,
             ),
-            CustomButton(
-                text: AppLocalizations.of(context)!.sell, onTap: _sellProduct)
+            isLoading
+                ? ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  )
+                : CustomButton(
+                    text: AppLocalizations.of(context)!.sell,
+                    onTap: _sellProduct)
           ]),
         ),
       )),

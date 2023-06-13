@@ -121,6 +121,7 @@ class AuthService {
   }) async {
     try {
       final twitterUser = twitterUserAccount.user;
+
       String? fcmToken = await FirebaseMessaging.instance.getToken();
       User user = User(
           id: '',

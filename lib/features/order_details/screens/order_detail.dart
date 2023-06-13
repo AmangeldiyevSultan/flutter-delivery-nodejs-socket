@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gooddelivary/common/widgets/app_bar.dart';
-import 'package:gooddelivary/constants/enums.dart';
 import 'package:gooddelivary/features/order_details/screens/good_map.dart';
-import 'package:gooddelivary/providers/theme_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_button.dart';
-import '../../../constants/global_variables.dart';
 import '../../../models/order.dart';
 import '../../../providers/user_provider.dart';
 import '../../admin/services/admin_services.dart';

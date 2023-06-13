@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocaleProvider extends ChangeNotifier {
   late Locale _locale;
   late LocalePreference _localePreference;
+  final languagePlatform = Platform.localeName.substring(0, 2);
 
   Locale get locale => _locale;
 
@@ -29,7 +30,10 @@ class LocaleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearLocale() {
+  void resetLocale() async {
+    _locale = await _localePreference.resetLocale();
+    _localePreference.setLocale(_locale.languageCode);
+
     notifyListeners();
   }
 }
@@ -51,5 +55,14 @@ class LocalePreference {
         sharedPreferences.getString(kLocalKey) ?? languagePlatform;
 
     return Locale(localeData);
+  }
+
+  resetLocale() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    await sharedPreferences.setString(kLocalKey, '');
+
+    return Locale(languagePlatform);
   }
 }

@@ -176,7 +176,6 @@ class AdminAppBar extends StatelessWidget {
             child: Text(AppLocalizations.of(context)!.logout),
           ),
         ),
-        const Text('GoodDelivary'),
         Row(
           children: [
             const ThemeChoiceDropDown(),
